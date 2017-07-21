@@ -373,8 +373,7 @@
 <p>Given “bbbbb”, the answer is “b”, with the length of 1.</p>
 <p>Given “pwwkew”, the answer is “wke”, with the length of 3. Note that the answer must be a substring, “pwke” is a subsequence and not a substring.</p>
 </blockquote>
-<p>##获取一个字符串中无重复字符的最长字符串</p>
-<pre><code>public class Solution {
+<h2 id="获取一个字符串中无重复字符的最长字符串"><a href="#获取一个字符串中无重复字符的最长字符串" class="headerlink" title="获取一个字符串中无重复字符的最长字符串"></a>获取一个字符串中无重复字符的最长字符串</h2><pre><code>public class Solution {
     public int lengthOfLongestSubstring(String s) {
         HashMap&lt;Character,Integer&gt; map = new HashMap&lt;&gt;();
         int max = 0;
@@ -390,13 +389,11 @@
         return max;
     }
 }
-</code></pre><p>#解析：<br>‘fabcdaf’ 字符串从0开始编号<br>    可以想象手握一根线的两头在字符串间游走，不断去丈量寻找最大的长度，右手用<code>i</code>代表，左手用<code>j</code>去表示，<code>Hashmap</code>是我们的记账本，每个字母的位置我们都记录在本子上，同时<code>i</code>每走一步我们就算一次最大长度算法就是左右手间的距离也就是<code>i-j+1</code>（其实没有必要每次都算但是这样的代码最简洁），对于重复出现的字母我们只记录最新的。<br>    让<code>i</code>先往右走 即 <code>i++</code>，并把<code>i</code>碰到的字母和位置记录到本子中，重复这个过程，直到本子上第一次出现了重复的字母，我们看一下本子上这个字母的位置，比如<code>i</code>现在走到了<code>5</code>碰到了重复字母<code>a</code>，本子上记录的位置是<code>1</code>，这时候我们就要挪动左手了，因为两个手之间出现了重复的字符我们要把它跳过去，那把左手往哪挪呢？肯定是往右挪，挪到哪最合适呢？当然是紧挨着1号位的右手边二号位是最合适的，因此这时<code>j</code>的取值就变成了<code>map.get(c)+1</code>，好，到了最难理解的一步<code>Math.max</code>的作用，这时候它的作用还没发挥出来，我们接着让<code>i</code>往右走。<br>    此时的<code>j</code>停在了<code>2</code>号位,<code>i</code>走到了字符<code>f</code>,<code>i</code>又一次的从本子上发现了出现过的字母，又该动动你的左手了，往哪边挪？不能往左，因为往左会出现更多的重复（a的重复）只能往右或者原地不动，而因为<code>f</code>的位置比<code>a</code>还要靠左，那好看来原地不动是最好的选择，所以我们在<code>j</code>的取值上增加了一个max处理，就是防止左手又回到了一个错误的位置上。</p>
-<p>#总结：</p>
-<blockquote>
+</code></pre><h1 id="解析："><a href="#解析：" class="headerlink" title="解析："></a>解析：</h1><p>‘fabcdaf’ 字符串从0开始编号<br>    可以想象手握一根线的两头在字符串间游走，不断去丈量寻找最大的长度，右手用<code>i</code>代表，左手用<code>j</code>去表示，<code>Hashmap</code>是我们的记账本，每个字母的位置我们都记录在本子上，同时<code>i</code>每走一步我们就算一次最大长度算法就是左右手间的距离也就是<code>i-j+1</code>（其实没有必要每次都算但是这样的代码最简洁），对于重复出现的字母我们只记录最新的。<br>    让<code>i</code>先往右走 即 <code>i++</code>，并把<code>i</code>碰到的字母和位置记录到本子中，重复这个过程，直到本子上第一次出现了重复的字母，我们看一下本子上这个字母的位置，比如<code>i</code>现在走到了<code>5</code>碰到了重复字母<code>a</code>，本子上记录的位置是<code>1</code>，这时候我们就要挪动左手了，因为两个手之间出现了重复的字符我们要把它跳过去，那把左手往哪挪呢？肯定是往右挪，挪到哪最合适呢？当然是紧挨着1号位的右手边二号位是最合适的，因此这时<code>j</code>的取值就变成了<code>map.get(c)+1</code>，好，到了最难理解的一步<code>Math.max</code>的作用，这时候它的作用还没发挥出来，我们接着让<code>i</code>往右走。<br>    此时的<code>j</code>停在了<code>2</code>号位,<code>i</code>走到了字符<code>f</code>,<code>i</code>又一次的从本子上发现了出现过的字母，又该动动你的左手了，往哪边挪？不能往左，因为往左会出现更多的重复（a的重复）只能往右或者原地不动，而因为<code>f</code>的位置比<code>a</code>还要靠左，那好看来原地不动是最好的选择，所以我们在<code>j</code>的取值上增加了一个max处理，就是防止左手又回到了一个错误的位置上。</p>
+<h1 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h1><blockquote>
 <p>i 和 j 这两个指针是只能往右走的 不能走回头路，i负责探路，j负责跳过路上的坑。 </p>
 </blockquote>
-<p>###leetcode 链接</p>
-<ul>
+<h3 id="leetcode-链接"><a href="#leetcode-链接" class="headerlink" title="leetcode 链接"></a>leetcode 链接</h3><ul>
 <li><a href="https://discuss.leetcode.com/topic/8232/11-line-simple-java-solution-o-n-with-explanation" target="_blank" rel="external">https://discuss.leetcode.com/topic/8232/11-line-simple-java-solution-o-n-with-explanation</a></li>
 </ul>
 
