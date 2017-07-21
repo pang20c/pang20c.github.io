@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="careseek," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="彭领的博客" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="参考文章http://www.cnblogs.com/semonxv/p/3816376.htmlhttp://www.cnblogs.com/yjf512/p/3581869.htmlhttp://www.cnblogs.com/xingmeng/p/3723087.htmlhttp://www.ibm.com/developerworks/cn/opensource/os-sphinx/htt">
+<meta name="keywords" content="careseek">
+<meta property="og:type" content="article">
+<meta property="og:title" content="coreseek 从安装到使用总结">
+<meta property="og:url" content="http://www.pengling.cc/2014/12/09/coreseek-install/index.html">
+<meta property="og:site_name" content="彭领的博客">
+<meta property="og:description" content="参考文章http://www.cnblogs.com/semonxv/p/3816376.htmlhttp://www.cnblogs.com/yjf512/p/3581869.htmlhttp://www.cnblogs.com/xingmeng/p/3723087.htmlhttp://www.ibm.com/developerworks/cn/opensource/os-sphinx/htt">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-07-21T00:24:54.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="coreseek 从安装到使用总结">
+<meta name="twitter:description" content="参考文章http://www.cnblogs.com/semonxv/p/3816376.htmlhttp://www.cnblogs.com/yjf512/p/3581869.htmlhttp://www.cnblogs.com/xingmeng/p/3723087.htmlhttp://www.ibm.com/developerworks/cn/opensource/os-sphinx/htt">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.pengling.cc/2014/12/09/coreseek-install/"/>
+
+
+
+
+
+  <title>coreseek 从安装到使用总结 | 彭领的博客</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">彭领的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.pengling.cc/2014/12/09/coreseek-install/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="彭领">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/img/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="彭领的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">coreseek 从安装到使用总结</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2014-12-09T14:41:58+08:00">
+                2014-12-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/linux/" itemprop="url" rel="index">
+                    <span itemprop="name">linux</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>参考文章<br><a href="http://www.cnblogs.com/semonxv/p/3816376.html" target="_blank" rel="external">http://www.cnblogs.com/semonxv/p/3816376.html</a><br><a href="http://www.cnblogs.com/yjf512/p/3581869.html" target="_blank" rel="external">http://www.cnblogs.com/yjf512/p/3581869.html</a><br><a href="http://www.cnblogs.com/xingmeng/p/3723087.html" target="_blank" rel="external">http://www.cnblogs.com/xingmeng/p/3723087.html</a><br><a href="http://www.ibm.com/developerworks/cn/opensource/os-sphinx/" target="_blank" rel="external">http://www.ibm.com/developerworks/cn/opensource/os-sphinx/</a><br><a href="http://www.coreseek.cn/docs/coreseek_4.1-sphinx_2.0.1-beta.html" target="_blank" rel="external">http://www.coreseek.cn/docs/coreseek_4.1-sphinx_2.0.1-beta.html</a><br><a href="http://sphinxsearch.com/wiki/doku.php?id=sphinx_chinese_tutorial" target="_blank" rel="external">http://sphinxsearch.com/wiki/doku.php?id=sphinx_chinese_tutorial</a><br><a href="http://www.imsiren.com/archives/766" target="_blank" rel="external">http://www.imsiren.com/archives/766</a></p>
+<p>简单的说sphinx就是从某个数据源取过来数据（最常见的就是数据库） 生成索引文件（很类似数据库的索引） 然后利用索引实现快速搜索 </p>
+<p>#安装<br>安装mmseg 这是个中文分词库其实如果你不用分词就按中文汉字搜都不用安这个<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">wget http://www.coreseek.cn/uploads/csft/4.0/coreseek-4.1-beta.tar.gz</div><div class="line">tar zxvf coreseek-4.1-beta.tar.gz</div><div class="line"></div><div class="line"><span class="built_in">cd</span> coreseek-4.1-beta</div><div class="line"><span class="built_in">cd</span> mmseg-3.2.14</div><div class="line">./bootstrap</div><div class="line">./configure --prefix=/usr/<span class="built_in">local</span>/mmseg3</div><div class="line">make &amp;&amp; make install</div></pre></td></tr></table></figure></p>
+<p>中间出现的错误<br>error: possibly undefined macro: AM_PROG_LIBTOOL<br>办法<br>yum install libtool</p>
+<p>libtool: Version mismatch error.  This is libtool 2.2.6b<br>办法<br>直接复制 /usr/local/bin/litool到mmseg-3.2.14目录下，覆盖原来的libtool，然后重新make</p>
+<p>安装coreseek 这个是核心软件我们的整个服务都是基于它的<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">cd</span> /usr/<span class="built_in">local</span>/src/coreseek-4.1-beta</div><div class="line">./buildconf.sh</div><div class="line">./configure --prefix=/usr/<span class="built_in">local</span>/coreseek --with-mysql-includes=/usr/include/mysql/ --with-mysql-libs=/usr/lib64/mysql/ --with-mmseg=/usr/<span class="built_in">local</span>/mmseg/ --with-mmseg-includes=/usr/<span class="built_in">local</span>/mmseg/include/mmseg/ --with-mmseg-libs=/usr/<span class="built_in">local</span>/mmseg/lib/</div><div class="line">make</div><div class="line">make install</div></pre></td></tr></table></figure></p>
+<p>这里的mysql 是yum安装的所以分开指定mysql的头文件 和库文件</p>
+<p>安装完成之后/usr/local/coreseek/bin 目录下是它的几个主要可执行程序<br>indexer 这个程序是用来生成索引文件的<br>searchd 这个是对外提供接口服务的守护进程<br>search  这个是用来在命令行调试的不用在实际开发中<br>还有两个是导出用的还没研究</p>
+<p>#配置<br>mmseg基本不用配置 我也不会配置</p>
+<p>进coreseek的配置文件目录<br>/usr/local/coreseek/etc<br>这里面两个自带的配置文件 一个是带全部注释的 一个是精简版的配置文件<br>我们改造个精简版的来说下基本配置</p>
+<p>先在mysql建好一个文章表 news 测试用<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">+----------+----------------------+------+-----+---------+----------------+</div><div class="line">| Field    | Type                 | Null | Key | Default | Extra          |</div><div class="line">+----------+----------------------+------+-----+---------+----------------+</div><div class="line">| id       | int(11)              | NO   | PRI | NULL    | auto_increment |</div><div class="line">| title    | varchar(255)         | NO   |     | NULL    |                |</div><div class="line">| content  | text                 | NO   |     | NULL    |                |</div><div class="line">| catid    | smallint(5) unsigned | NO   |     | NULL    |                |</div><div class="line">| dateline | datetime             | NO   |     | NULL    |                |</div><div class="line">+----------+----------------------+------+-----+---------+----------------+</div></pre></td></tr></table></figure></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#</span></div><div class="line"><span class="comment"># Minimal Sphinx configuration sample (clean, simple, functional)</span></div><div class="line"><span class="comment">#</span></div><div class="line"></div><div class="line"><span class="built_in">source</span> src1</div><div class="line">&#123;</div><div class="line">        <span class="built_in">type</span>                    = mysql</div><div class="line"></div><div class="line">        sql_host                = localhost</div><div class="line">        sql_user                = root</div><div class="line">        sql_pass                =</div><div class="line">        sql_db                  = news</div><div class="line">        sql_port                = 3306  <span class="comment"># optional, default is 3306</span></div><div class="line">        sql_query_pre           = <span class="built_in">set</span> names utf8</div><div class="line">        sql_query               = \</div><div class="line">                SELECT id,catid , UNIX_TIMESTAMP(dateline) AS dateline, title, content \</div><div class="line">                FROM news</div><div class="line"></div><div class="line">        sql_attr_uint           = catid</div><div class="line">        sql_attr_timestamp      = dateline</div><div class="line">        sql_field_string        = title</div><div class="line">        sql_field_string        = content</div><div class="line">        sql_query_info          = SELECT * FROM news WHERE id=<span class="variable">$id</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">index test1</div><div class="line">&#123;</div><div class="line">        <span class="built_in">source</span>                  = src1</div><div class="line">        path                    = /usr/<span class="built_in">local</span>/coreseek/var/data/test1</div><div class="line">        docinfo                 = extern</div><div class="line">        charset_type            = zh_cn.utf-8 <span class="comment">#设置数据编码为UTF8</span></div><div class="line">        ngram_len               = 0</div><div class="line">        charset_dictpath        = /usr/<span class="built_in">local</span>/mmseg/etc/</div><div class="line">        <span class="comment">#html_strip             =1 #去掉HTML标签</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line">indexer</div><div class="line">&#123;</div><div class="line">        mem_limit               = 32M</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">searchd</div><div class="line">&#123;</div><div class="line">        listen                  = 9312</div><div class="line">        listen                  = 9306:mysql41</div><div class="line">        <span class="built_in">log</span>                     = /usr/<span class="built_in">local</span>/coreseek/var/<span class="built_in">log</span>/searchd.log</div><div class="line">        query_log               = /usr/<span class="built_in">local</span>/coreseek/var/<span class="built_in">log</span>/query.log</div><div class="line">        read_timeout            = 5</div><div class="line">        max_children            = 30</div><div class="line">        pid_file                = /usr/<span class="built_in">local</span>/coreseek/var/<span class="built_in">log</span>/searchd.pid</div><div class="line">        max_matches             = 1000</div><div class="line">        seamless_rotate         = 1</div><div class="line">        preopen_indexes         = 1</div><div class="line">        unlink_old              = 1</div><div class="line">        workers                 = threads <span class="comment"># for RT to work</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>主要分四大块</p>
+<blockquote>
+<p>source<br>数据源的配置 indexer在生成索引的时候就是根据这里的配置去读取mysql<br>sql_query_pre 这个是在主查询之前进行的sql操作 一般是设置字符集什么的<br>sql_query 这个就是核心的查询了 用来从数据库获取数据<br>sql<em>attr</em><em> 这个是属性 他是用来过滤用的相当于where的条件（把sphinx看成一种数据库就行）但是他是不能被全文检索的<br>sql<em>field</em></em> 这个是提供全文检索的字段 </p>
+<p>index<br>这个是索引的配置选项<br>path 指定索引文件生成目录<br>docinfo 表示属性信息的存储方式 none 不存贮 inline和索引存在一起 docinfo单独存放<br>charset_type 这个一定要设置成utf-8<br>ngram_len 和 ngram_chars 这个是对未分词的中文用的 因为咱们配置了分词 这里要把ngram_len=0 设置成关闭 表示消原有的一元字符切分模式，不使其对中文分词产生干扰；<br>charset_table 接受的字符表和大小写转换规则 这个也注释掉 交给mmseg去做这些 Coreseek 提供的MMseg分词法内置了可接受的字符表，并且用户不可修改。当启用分词功能时，自动开启。<br>charset_dictpath 这个是核心配置啦 指定分词词典文件的路径</p>
+<p>indexer<br>索引的一些配置项</p>
+<p>searchd<br>守护进程的配置项<br>listen的格式 listen = ( address “:” port | port | path ) [ “:” protocol ]<br>9312端口提供的是api方式调用<br>9306端口指定了协议是mysql41 也就是可以像操作mysql一样写sql语句来执行访问 具体见官方SphinxQL说明</p>
+</blockquote>
+<p>#使用<br>先用indexer生成索引<br> /usr/local/coreseek/bin/indexer -c /usr/local/coreseek/etc/sphinx.conf –all –rotate<br> 如果是第一次生成不用加rotate 如果searchd服务已经运行则必须加rotate 意思是先生成一个临时索引文件 生成完毕后将正式索引变更为这个文件<br>用search 测试一个搜索</p>
+<p>开启searchd服务<br>/usr/local/coreseek/bin/searchd -c /usr/local/coreseek/etc/sphinx.conf</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/careseek/" rel="tag"># careseek</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014/11/21/mysql-reading-notes-basic/" rel="next" title="深入浅出mysql读书笔记-基础篇">
+                <i class="fa fa-chevron-left"></i> 深入浅出mysql读书笔记-基础篇
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2014/12/30/install-mysql-from-source/" rel="prev" title="源码安装mysql">
+                源码安装mysql <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/img/avatar.png"
+               alt="彭领" />
+          <p class="site-author-name" itemprop="name">彭领</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2014 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">彭领</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
