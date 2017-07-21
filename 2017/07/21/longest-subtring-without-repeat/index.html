@@ -77,7 +77,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="linux," />
+  <meta name="keywords" content="算法,字符串,leetcode," />
 
 
 
@@ -95,18 +95,18 @@
 
 
 
-<meta name="description" content="安装第三方yum源wget http://www.atomicorp.com/installers/atomicsh ./atomic 安装依赖软件yum -y install gcc gcc-c++ autoconf libjpeg libjpeg-devel libpng libpng-devel freetype freetype-devel libxml2 libxml2-devel zl">
-<meta name="keywords" content="linux">
+<meta name="description" content="Given a string, find the length of the longest substring without repeating characters. Examples: Given “abcabcbb”, the answer is “abc”, which the length is 3. Given “bbbbb”, the answer is “b”, with t">
+<meta name="keywords" content="算法,字符串,leetcode">
 <meta property="og:type" content="article">
-<meta property="og:title" content="install linux server by source">
-<meta property="og:url" content="http://www.pengling.cc/2015/01/16/install-linux-server-by-source/index.html">
+<meta property="og:title" content="longest substring without repeat">
+<meta property="og:url" content="http://www.pengling.cc/2017/07/21/longest-subtring-without-repeat/index.html">
 <meta property="og:site_name" content="彭领的博客">
-<meta property="og:description" content="安装第三方yum源wget http://www.atomicorp.com/installers/atomicsh ./atomic 安装依赖软件yum -y install gcc gcc-c++ autoconf libjpeg libjpeg-devel libpng libpng-devel freetype freetype-devel libxml2 libxml2-devel zl">
+<meta property="og:description" content="Given a string, find the length of the longest substring without repeating characters. Examples: Given “abcabcbb”, the answer is “abc”, which the length is 3. Given “bbbbb”, the answer is “b”, with t">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-07-21T00:24:54.000Z">
+<meta property="og:updated_time" content="2017-07-21T13:07:04.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="install linux server by source">
-<meta name="twitter:description" content="安装第三方yum源wget http://www.atomicorp.com/installers/atomicsh ./atomic 安装依赖软件yum -y install gcc gcc-c++ autoconf libjpeg libjpeg-devel libpng libpng-devel freetype freetype-devel libxml2 libxml2-devel zl">
+<meta name="twitter:title" content="longest substring without repeat">
+<meta name="twitter:description" content="Given a string, find the length of the longest substring without repeating characters. Examples: Given “abcabcbb”, the answer is “abc”, which the length is 3. Given “bbbbb”, the answer is “b”, with t">
 
 
 
@@ -134,13 +134,13 @@
 
 
 
-  <link rel="canonical" href="http://www.pengling.cc/2015/01/16/install-linux-server-by-source/"/>
+  <link rel="canonical" href="http://www.pengling.cc/2017/07/21/longest-subtring-without-repeat/"/>
 
 
 
 
 
-  <title>install linux server by source | 彭领的博客</title>
+  <title>longest substring without repeat | 彭领的博客</title>
   
 
 
@@ -279,7 +279,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://www.pengling.cc/2015/01/16/install-linux-server-by-source/">
+    <link itemprop="mainEntityOfPage" href="http://www.pengling.cc/2017/07/21/longest-subtring-without-repeat/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="彭领">
@@ -296,7 +296,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">install linux server by source</h1>
+          <h1 class="post-title" itemprop="name headline">longest substring without repeat</h1>
         
 
         <div class="post-meta">
@@ -308,8 +308,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-01-16T17:19:23+08:00">
-                2015-01-16
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-21T19:55:57+08:00">
+                2017-07-21
               </time>
             
 
@@ -331,8 +331,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/linux/" itemprop="url" rel="index">
-                    <span itemprop="name">linux</span>
+                  <a href="/categories/算法/" itemprop="url" rel="index">
+                    <span itemprop="name">算法</span>
                   </a>
                 </span>
 
@@ -365,27 +365,39 @@
       
 
       
-        <p>安装第三方yum源<br>wget <a href="http://www.atomicorp.com/installers/atomic" target="_blank" rel="external">http://www.atomicorp.com/installers/atomic</a><br>sh ./atomic</p>
-<p>安装依赖软件<br>yum -y install gcc gcc-c++ autoconf libjpeg libjpeg-devel libpng libpng-devel freetype freetype-devel libxml2 libxml2-devel zlib zlib-devel glibc glibc-devel glib2 glib2-devel bzip2 bzip2-devel ncurses ncurses-devel curl curl-devel e2fsprogs e2fsprogs-devel krb5 krb5-devel libidn libidn-devel openssl openssl-devel  cmake bison  libmcrypt  libmcrypt-devel libtool libtool-ltdl libtool-ltdl-devel openldap openldap-devel</p>
-<p>##nginx安装</p>
-<p>下载<a href="http://sourceforge.net/projects/pcre/files/pcre/8.35/pcre-8.35.tar.gz/download" target="_blank" rel="external">pcre</a> 源码包并解压<br>tar -zxvf pcre-8.35.tar.gz</p>
-<p>添加www用户<br>useradd -Mrs /sbin/nologin www</p>
-<p>下载nginx<br>wget <a href="http://nginx.org/download/nginx-1.7.9.tar.gz" target="_blank" rel="external">http://nginx.org/download/nginx-1.7.9.tar.gz</a><br>tar -zxvf nginx-1.7.9.tar.gz<br>cd nginx-1.7.9</p>
-<p>开始编译安装nginx<br> ./configure –user=www –group=www –prefix=/usr/local/nginx –with-http_stub_status_module –with-http_ssl_module –with-pcre=/usr/local/src/pcre-8.35  –with-http_realip_module<br> make &amp;&amp; make install</p>
-<p> ##mysql5.5安装<br>useradd -Mrs /sbin/nologin mysql<br>unzip mysql-server-5.5.zip<br>cd mysql-server-5.5</p>
-<p>cmake -DCMAKE_INSTALL_PREFIX=/usr/local/mysql -DMYSQL_DATADIR=/usr/local/mysql/data -DINSTALL_LIBDIR=/usr/lib -DSYSCONFDIR=/etc -DWITH_INNOBASE_STORAGE_ENGINE=1 -DMYSQL_UNIX_ADDR=/var/lib/mysql/mysql.sock -DMYSQL_TCP_PORT=3306 -DENABLED_LOCAL_INFILE=1 -DWITH_PARTITION_STORAGE_ENGINE=1 -DEXTRA_CHARSETS=all -DDEFAULT_CHARSET=utf8 -DDEFAULT_COLLATION=utf8_general_ci</p>
-<p>make<br>make install </p>
-<p>cd /usr/local/mysql/</p>
-<p>chown -R mysql:mysql .</p>
-<p>scripts/mysql_install_db –user=mysql –basedir=/usr/local/mysql/ –datadir=/usr/local/mysql/data/</p>
-<p>cp support-files/my-medium.cnf /etc/my.cnf</p>
-<p>bin/mysqld_safe –user=mysql &amp;  启动mysql</p>
-<p>##php 5.6.4 安装</p>
-<p>cp -frp /usr/lib64/libldap* /usr/lib/<br>ldconfig -v<br>./configure –prefix=/usr/local/php –with-config-file-path=/usr/local/php/etc –with-mysql –with-mysqli=/usr/local/mysql/bin/mysql_config –with-iconv-dir=/usr/local –with-freetype-dir –with-jpeg-dir –with-png-dir –with-zlib –with-libxml-dir=/usr –enable-xml –disable-rpath –enable-discard-path –enable-safe-mode –enable-bcmath –enable-shmop –enable-sysvsem –enable-inline-optimization –with-curl –with-curlwrappers –enable-mbregex –enable-fastcgi –enable-fpm –enable-force-cgi-redirect –enable-mbstring –with-mcrypt –with-gd –enable-gd-native-ttf –with-openssl –with-mhash –enable-pcntl –enable-sockets –with-ldap –with-ldap-sasl –with-xmlrpc –enable-zip –enable-soap –without-pear –with-zlib –enable-pdo –with-pdo-mysql</p>
-<p>注意这里的 –with-mysql 如果在编译mysql的时候 没有指定-DINSTALL_LIBDIR=/usr/lib 那么这里需要写成mysql的安装路径<br>如果报 Don’t know how to define struct flock on this system, set –enable-opcache=no 是由于没有找到mysql的库文件导致的<br>可以先运行ldconfig -v 命令 看看mysql的库文件有没有被加载进来 这个ldconfig就是用来加载动态链接库的<br>如果没有被加载进来  编辑 vi /etc/ld.so.conf.d/local.conf （这个local.conf 是随便起的 *.conf 的文件都会被加载）<br>在这个文件里加入你的库文件路径 例如 /usr/lib  保存退出后再次运行 ldconfig -v 注意不要重复引入 然后重新编译</p>
-<p>make &amp;&amp; make install</p>
-<p>##php memcached扩展安装<br> wget <a href="https://launchpad.net/libmemcached/1.0/1.0.18/+download/libmemcached-1.0.18.tar.gz" target="_blank" rel="external">https://launchpad.net/libmemcached/1.0/1.0.18/+download/libmemcached-1.0.18.tar.gz</a><br> tar -zxvf libmemcached-1.0.18.tar.gz<br> cd libmemcached-1.0.18<br> ./configure –with-memcached –prefix=/usr/local/libmemcached<br> make &amp;&amp; make install</p>
-<p> wget <a href="http://pecl.php.net/get/memcached-2.2.0.tgz" target="_blank" rel="external">http://pecl.php.net/get/memcached-2.2.0.tgz</a><br> tar -zxvf memcached-2.2.0.tgz<br> cd memcached-2.2.0<br> /usr/local/php/bin/phpize<br> ./configure –enable-memcached –with-php-config=/usr/local/php/bin/php-config –with-libmemcached-dir=/usr/local/libmemcached<br> make &amp;&amp; make install</p>
+        <blockquote>
+<p>Given a string, find the length of the longest substring without repeating characters.</p>
+<p>Examples:</p>
+<p>Given “abcabcbb”, the answer is “abc”, which the length is 3.</p>
+<p>Given “bbbbb”, the answer is “b”, with the length of 1.</p>
+<p>Given “pwwkew”, the answer is “wke”, with the length of 3. Note that the answer must be a substring, “pwke” is a subsequence and not a substring.</p>
+</blockquote>
+<p>##获取一个字符串中无重复字符的最长字符串</p>
+<pre><code>public class Solution {
+    public int lengthOfLongestSubstring(String s) {
+        HashMap&lt;Character,Integer&gt; map = new HashMap&lt;&gt;();
+        int max = 0;
+        int j = 0;
+        for(int i = 0;i&lt;s.length();i++){
+            Character c = s.charAt(i);
+            if(map.containsKey(c)){
+                j = Math.max(map.get(c)+1,j);
+            }
+            map.put(c,i);
+            max = Math.max(max,i-j+1);
+        }
+        return max;
+    }
+}
+</code></pre><p>#解析：<br>‘fabcdaf’ 字符串从0开始编号<br>    可以想象手握一根线的两头在字符串间游走，不断去丈量寻找最大的长度，右手用<code>i</code>代表，左手用<code>j</code>去表示，<code>Hashmap</code>是我们的记账本，每个字母的位置我们都记录在本子上，同时<code>i</code>每走一步我们就算一次最大长度算法就是左右手间的距离也就是<code>i-j+1</code>（其实没有必要每次都算但是这样的代码最简洁），对于重复出现的字母我们只记录最新的。<br>    让<code>i</code>先往右走 即 <code>i++</code>，并把<code>i</code>碰到的字母和位置记录到本子中，重复这个过程，直到本子上第一次出现了重复的字母，我们看一下本子上这个字母的位置，比如<code>i</code>现在走到了<code>5</code>碰到了重复字母<code>a</code>，本子上记录的位置是<code>1</code>，这时候我们就要挪动左手了，因为两个手之间出现了重复的字符我们要把它跳过去，那把左手往哪挪呢？肯定是往右挪，挪到哪最合适呢？当然是紧挨着1号位的右手边二号位是最合适的，因此这时<code>j</code>的取值就变成了<code>map.get(c)+1</code>，好，到了最难理解的一步<code>Math.max</code>的作用，这时候它的作用还没发挥出来，我们接着让<code>i</code>往右走。<br>    此时的<code>j</code>停在了<code>2</code>号位,<code>i</code>走到了字符<code>f</code>,<code>i</code>又一次的从本子上发现了出现过的字母，又该动动你的左手了，往哪边挪？不能往左，因为往左会出现更多的重复（a的重复）只能往右或者原地不动，而因为<code>f</code>的位置比<code>a</code>还要靠左，那好看来原地不动是最好的选择，所以我们在<code>j</code>的取值上增加了一个max处理，就是防止左手又回到了一个错误的位置上。</p>
+<p>#总结：</p>
+<blockquote>
+<p>i 和 j 这两个指针是只能往右走的 不能走回头路，i负责探路，j负责跳过路上的坑。 </p>
+</blockquote>
+<p>###leetcode 链接</p>
+<ul>
+<li><a href="https://discuss.leetcode.com/topic/8232/11-line-simple-java-solution-o-n-with-explanation" target="_blank" rel="external">https://discuss.leetcode.com/topic/8232/11-line-simple-java-solution-o-n-with-explanation</a></li>
+</ul>
 
       
     </div>
@@ -415,7 +427,11 @@
       
         <div class="post-tags">
           
-            <a href="/tags/linux/" rel="tag"># linux</a>
+            <a href="/tags/算法/" rel="tag"># 算法</a>
+          
+            <a href="/tags/字符串/" rel="tag"># 字符串</a>
+          
+            <a href="/tags/leetcode/" rel="tag"># leetcode</a>
           
         </div>
       
@@ -428,8 +444,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/01/04/binlog-do-db-binlog-ignore-db/" rel="next" title="mysql主从 binlog-do-db 和 binlog-ignore-db">
-                <i class="fa fa-chevron-left"></i> mysql主从 binlog-do-db 和 binlog-ignore-db
+              <a href="/2015/05/27/YII-start-install/" rel="next" title="Yii 学习笔记: 安装">
+                <i class="fa fa-chevron-left"></i> Yii 学习笔记: 安装
               </a>
             
           </div>
@@ -437,10 +453,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2015/02/27/remove-space-by-preg-replace-s/" rel="prev" title="preg_replace \s 去不掉的空格">
-                preg_replace \s 去不掉的空格 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
