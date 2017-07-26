@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.pengling.cc/"/>
-  <updated>2017-07-21T13:21:57.000Z</updated>
+  <updated>2017-07-26T08:01:19.000Z</updated>
   <id>http://www.pengling.cc/</id>
   
   <author>
@@ -14,6 +14,130 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>shell 中的查找替换</title>
+    <link href="http://www.pengling.cc/2017/07/26/shell-find-and-replace/"/>
+    <id>http://www.pengling.cc/2017/07/26/shell-find-and-replace/</id>
+    <published>2017-07-26T07:56:39.000Z</published>
+    <updated>2017-07-26T08:01:19.000Z</updated>
+    
+    <content type="html"><![CDATA[<ul>
+<li>用sed实现多文本内容替换</li>
+</ul>
+<figure class="highlight clean"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sed -i <span class="string">'s/abc/ABC/g'</span> `grep -rl <span class="string">'abc'</span> /usr/local/`</div></pre></td></tr></table></figure>
+<p>其中<code>grep -l</code>的作用是只显示文件路径 不显示其他内容 方便传递给sed</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;ul&gt;
+&lt;li&gt;用sed实现多文本内容替换&lt;/li&gt;
+&lt;/ul&gt;
+&lt;figure class=&quot;highlight clean&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td
+    
+    </summary>
+    
+      <category term="shell" scheme="http://www.pengling.cc/categories/shell/"/>
+    
+    
+      <category term="shell" scheme="http://www.pengling.cc/tags/shell/"/>
+    
+      <category term="sed" scheme="http://www.pengling.cc/tags/sed/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>http 知识点总结</title>
+    <link href="http://www.pengling.cc/2017/07/24/http-protocol/"/>
+    <id>http://www.pengling.cc/2017/07/24/http-protocol/</id>
+    <published>2017-07-24T10:20:57.000Z</published>
+    <updated>2017-07-26T08:02:07.000Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="格式"><a href="#格式" class="headerlink" title="格式"></a>格式</h1><p>HTTP报文 由 <code>报文头部</code> 和 <code>报文主体</code> 组成，两者用CRLF（\r\n）分割<br>报文头部 包括 请求行（请求） 或 状态行（响应）、首部字段、和其他（例如cookie）<br>首部字段也是用CRLF分割</p>
+<h1 id="常用错误码"><a href="#常用错误码" class="headerlink" title="常用错误码"></a>常用错误码</h1><ul>
+<li>301 永久跳转</li>
+<li>302 临时跳转</li>
+<li>304 文件未修改</li>
+<li>400 请求语法错误</li>
+<li>402 请求未授权</li>
+<li>403 禁止访问</li>
+<li>503 服务不可用</li>
+</ul>
+<h1 id="长连接（keep-alive）"><a href="#长连接（keep-alive）" class="headerlink" title="长连接（keep-alive）"></a>长连接（keep-alive）</h1><p>TCP链接建立需要三次握手，传输完数据又需要四次握手，如果每传输一次数据就建立一个tcp链接那是十分浪费资源的，为了能更高效的利用tcp链接在HTTP/1.0 中提出了<code>Connection: keep-alive</code>（在HTTP/1.1中这是个默认选项，不在需要客户端显示发送，能否启用该功能取决于服务端设定）,作用是当一块数据发送完之后不会关闭链接，而是等待后续的tcp请求，注意这里是等待tcp而不是等待后续的http，因为即使用了keep-alive 一个tcp链接也是只能处理一个http的请求响应的。而keep-alive带出的一个问题是接收数据的一端（一般是浏览器）如何判断这个链接的数据已经发送完了。有两种办法 一种是服务端在这次请求中事先就告诉客户端内容的长度即设置 <code>Content-Length:</code>头，比如<code>Content-Length:100</code> 那么客户端在收到第一百个字节的时候（指报文主体长度）就关闭链接，另一种是下面介绍的<code>分块传输</code></p>
+<h1 id="分块传输-Transfer-Encoding-chunked"><a href="#分块传输-Transfer-Encoding-chunked" class="headerlink" title="分块传输(Transfer-Encoding: chunked)"></a>分块传输(Transfer-Encoding: chunked)</h1><p>分块编码主要应用于如下场景，即要传输大量的数据，但是在请求在没有被处理完之前响应的长度是无法获得的，服务器无法预先知道<code>Content-Length</code>，这时候就可以在http头部设定<code>Transfer-Encoding: chunked</code> 告诉客户端我后面的数据是分块传输的，而每一块数据包括16进制的长度和真正的数据,而最后一个块必须是一个长度为0的块表示结束，客户端收到这个这个长度为0的块就可以发起<code>FIN</code>请求关闭链接了，更详细参见<a href="https://imququ.com/post/transfer-encoding-header-in-http.html" target="_blank" rel="external">这里</a></p>
+<figure class="highlight taggerscript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">HTTP/1.1 200 OK<span class="symbol">\r</span><span class="symbol">\n</span></div><div class="line">Transfer-Encoding: chunked<span class="symbol">\r</span><span class="symbol">\n</span></div><div class="line"><span class="symbol">\r</span><span class="symbol">\n</span></div><div class="line"></div><div class="line">b<span class="symbol">\r</span><span class="symbol">\n</span></div><div class="line">01234567890<span class="symbol">\r</span><span class="symbol">\n</span></div><div class="line"></div><div class="line">5<span class="symbol">\r</span><span class="symbol">\n</span></div><div class="line">12345<span class="symbol">\r</span><span class="symbol">\n</span></div><div class="line"></div><div class="line">0<span class="symbol">\r</span><span class="symbol">\n</span></div><div class="line"><span class="symbol">\r</span><span class="symbol">\n</span></div></pre></td></tr></table></figure>
+<h1 id="Cache-Control-缓存处理策略"><a href="#Cache-Control-缓存处理策略" class="headerlink" title="Cache-Control 缓存处理策略"></a>Cache-Control 缓存处理策略</h1><table>
+<thead>
+<tr>
+<th>值</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>public</td>
+<td>代理服务器和客户端都可缓存</td>
+</tr>
+<tr>
+<td>private</td>
+<td>仅客户端可以缓存</td>
+</tr>
+<tr>
+<td>no-cache</td>
+<td>请求头时表示不要缓存服务器的内容直接请求源服务器，响应头时表示浏览器每次必须先与服务器确认返回的响应是否被更改，然后才能使用该响应来满足后续对同一个网址的请求。</td>
+</tr>
+<tr>
+<td>no-store</td>
+<td>所有内容都不会被缓存到缓存或 Internet 临时文件中</td>
+</tr>
+<tr>
+<td>must-revalidation/proxy-revalidation</td>
+<td>如果缓存的内容失效，请求必须发送到服务器/代理以进行重新验证</td>
+</tr>
+<tr>
+<td>max-age=xxx</td>
+<td>请求头时表示只接受age小于这个值的缓存， 响应头时表示缓存的内容将在 xxx 秒后失效, 这个选项只在HTTP 1.1可用, 并如果和Last-Modified一起使用时, 优先级较高</td>
+</tr>
+</tbody>
+</table>
+<h1 id="常用头部"><a href="#常用头部" class="headerlink" title="常用头部"></a>常用头部</h1><h2 id="请求头"><a href="#请求头" class="headerlink" title="请求头"></a>请求头</h2><ul>
+<li>Connection ： close告诉服务端请求完不要保持这个链接直接关闭，keep-alive 告诉服务端请求完别关闭链接 还有后续请求。</li>
+<li>If-Modified-Since：如果请求的对象在该头部指定的时间之后修改了，才执行请求的动作（比如返回对象），否则返回代码304，告诉浏览器该对象没有修改。例如：If-Modified-Since：Thu, 10 Apr 2008 09:14:42 GMT</li>
+<li>If-None-Match：如果对象的 ETag 改变了，其实也就意味著对象也改变了，才执行请求的动作。</li>
+</ul>
+<h2 id="响应头"><a href="#响应头" class="headerlink" title="响应头"></a>响应头</h2><ul>
+<li>Cache-Control 缓存处理策略</li>
+<li>Content-Encoding 压缩方式gzip</li>
+<li>Content-Length 响应长度</li>
+<li>Content-Type 内容的类型 application/xml</li>
+<li>Transfer-Encoding 传输编码方式 目前只有chunked</li>
+<li>ETag 响应内容的签名</li>
+</ul>
+<h1 id="安全"><a href="#安全" class="headerlink" title="安全"></a>安全</h1><h2 id="csrf-跨站请求伪造-防范"><a href="#csrf-跨站请求伪造-防范" class="headerlink" title="csrf 跨站请求伪造  防范"></a>csrf 跨站请求伪造  防范</h2><ul>
+<li>判断referer</li>
+<li>表单中加入随机token，并且每次表单提交后变换token</li>
+</ul>
+<h2 id="xss-跨站脚本攻击-防范"><a href="#xss-跨站脚本攻击-防范" class="headerlink" title="xss 跨站脚本攻击 防范"></a>xss 跨站脚本攻击 防范</h2><ul>
+<li>过滤html java用spring的 HtmlUtils.htmlEscape php 用 htmlspecialchars</li>
+<li>必须输入html的地方 设置标签白名单，解析html重新整理。</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;格式&quot;&gt;&lt;a href=&quot;#格式&quot; class=&quot;headerlink&quot; title=&quot;格式&quot;&gt;&lt;/a&gt;格式&lt;/h1&gt;&lt;p&gt;HTTP报文 由 &lt;code&gt;报文头部&lt;/code&gt; 和 &lt;code&gt;报文主体&lt;/code&gt; 组成，两者用CRLF（\r\n）分割&lt;br&gt;报
+    
+    </summary>
+    
+      <category term="网络" scheme="http://www.pengling.cc/categories/%E7%BD%91%E7%BB%9C/"/>
+    
+    
+      <category term="http" scheme="http://www.pengling.cc/tags/http/"/>
+    
+      <category term="网络" scheme="http://www.pengling.cc/tags/%E7%BD%91%E7%BB%9C/"/>
+    
+  </entry>
   
   <entry>
     <title>longest substring without repeat</title>
@@ -570,9 +694,9 @@
       <category term="linux" scheme="http://www.pengling.cc/categories/linux/"/>
     
     
-      <category term="linux" scheme="http://www.pengling.cc/tags/linux/"/>
-    
       <category term="ssh" scheme="http://www.pengling.cc/tags/ssh/"/>
+    
+      <category term="linux" scheme="http://www.pengling.cc/tags/linux/"/>
     
       <category term="security" scheme="http://www.pengling.cc/tags/security/"/>
     

@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="http,网络," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="彭领的博客" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="格式HTTP报文 由 报文头部 和 报文主体 组成，两者用CRLF（\r\n）分割报文头部 包括 请求行（请求） 或 状态行（响应）、首部字段、和其他（例如cookie）首部字段也是用CRLF分割 常用错误码 301 永久跳转 302 临时跳转 304 文件未修改 400 请求语法错误 402 请求未授权 403 禁止访问 503 服务不可用  长连接（keep-alive）TCP链接建立需要三次">
+<meta name="keywords" content="http,网络">
+<meta property="og:type" content="article">
+<meta property="og:title" content="http 知识点总结">
+<meta property="og:url" content="http://www.pengling.cc/2017/07/24/http-protocol/index.html">
+<meta property="og:site_name" content="彭领的博客">
+<meta property="og:description" content="格式HTTP报文 由 报文头部 和 报文主体 组成，两者用CRLF（\r\n）分割报文头部 包括 请求行（请求） 或 状态行（响应）、首部字段、和其他（例如cookie）首部字段也是用CRLF分割 常用错误码 301 永久跳转 302 临时跳转 304 文件未修改 400 请求语法错误 402 请求未授权 403 禁止访问 503 服务不可用  长连接（keep-alive）TCP链接建立需要三次">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-07-26T08:02:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="http 知识点总结">
+<meta name="twitter:description" content="格式HTTP报文 由 报文头部 和 报文主体 组成，两者用CRLF（\r\n）分割报文头部 包括 请求行（请求） 或 状态行（响应）、首部字段、和其他（例如cookie）首部字段也是用CRLF分割 常用错误码 301 永久跳转 302 临时跳转 304 文件未修改 400 请求语法错误 402 请求未授权 403 禁止访问 503 服务不可用  长连接（keep-alive）TCP链接建立需要三次">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.pengling.cc/2017/07/24/http-protocol/"/>
+
+
+
+
+
+  <title>http 知识点总结 | 彭领的博客</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">彭领的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.pengling.cc/2017/07/24/http-protocol/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="彭领">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/img/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="彭领的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">http 知识点总结</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-24T18:20:57+08:00">
+                2017-07-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/网络/" itemprop="url" rel="index">
+                    <span itemprop="name">网络</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="格式"><a href="#格式" class="headerlink" title="格式"></a>格式</h1><p>HTTP报文 由 <code>报文头部</code> 和 <code>报文主体</code> 组成，两者用CRLF（\r\n）分割<br>报文头部 包括 请求行（请求） 或 状态行（响应）、首部字段、和其他（例如cookie）<br>首部字段也是用CRLF分割</p>
+<h1 id="常用错误码"><a href="#常用错误码" class="headerlink" title="常用错误码"></a>常用错误码</h1><ul>
+<li>301 永久跳转</li>
+<li>302 临时跳转</li>
+<li>304 文件未修改</li>
+<li>400 请求语法错误</li>
+<li>402 请求未授权</li>
+<li>403 禁止访问</li>
+<li>503 服务不可用</li>
+</ul>
+<h1 id="长连接（keep-alive）"><a href="#长连接（keep-alive）" class="headerlink" title="长连接（keep-alive）"></a>长连接（keep-alive）</h1><p>TCP链接建立需要三次握手，传输完数据又需要四次握手，如果每传输一次数据就建立一个tcp链接那是十分浪费资源的，为了能更高效的利用tcp链接在HTTP/1.0 中提出了<code>Connection: keep-alive</code>（在HTTP/1.1中这是个默认选项，不在需要客户端显示发送，能否启用该功能取决于服务端设定）,作用是当一块数据发送完之后不会关闭链接，而是等待后续的tcp请求，注意这里是等待tcp而不是等待后续的http，因为即使用了keep-alive 一个tcp链接也是只能处理一个http的请求响应的。而keep-alive带出的一个问题是接收数据的一端（一般是浏览器）如何判断这个链接的数据已经发送完了。有两种办法 一种是服务端在这次请求中事先就告诉客户端内容的长度即设置 <code>Content-Length:</code>头，比如<code>Content-Length:100</code> 那么客户端在收到第一百个字节的时候（指报文主体长度）就关闭链接，另一种是下面介绍的<code>分块传输</code></p>
+<h1 id="分块传输-Transfer-Encoding-chunked"><a href="#分块传输-Transfer-Encoding-chunked" class="headerlink" title="分块传输(Transfer-Encoding: chunked)"></a>分块传输(Transfer-Encoding: chunked)</h1><p>分块编码主要应用于如下场景，即要传输大量的数据，但是在请求在没有被处理完之前响应的长度是无法获得的，服务器无法预先知道<code>Content-Length</code>，这时候就可以在http头部设定<code>Transfer-Encoding: chunked</code> 告诉客户端我后面的数据是分块传输的，而每一块数据包括16进制的长度和真正的数据,而最后一个块必须是一个长度为0的块表示结束，客户端收到这个这个长度为0的块就可以发起<code>FIN</code>请求关闭链接了，更详细参见<a href="https://imququ.com/post/transfer-encoding-header-in-http.html" target="_blank" rel="external">这里</a></p>
+<figure class="highlight taggerscript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">HTTP/1.1 200 OK<span class="symbol">\r</span><span class="symbol">\n</span></div><div class="line">Transfer-Encoding: chunked<span class="symbol">\r</span><span class="symbol">\n</span></div><div class="line"><span class="symbol">\r</span><span class="symbol">\n</span></div><div class="line"></div><div class="line">b<span class="symbol">\r</span><span class="symbol">\n</span></div><div class="line">01234567890<span class="symbol">\r</span><span class="symbol">\n</span></div><div class="line"></div><div class="line">5<span class="symbol">\r</span><span class="symbol">\n</span></div><div class="line">12345<span class="symbol">\r</span><span class="symbol">\n</span></div><div class="line"></div><div class="line">0<span class="symbol">\r</span><span class="symbol">\n</span></div><div class="line"><span class="symbol">\r</span><span class="symbol">\n</span></div></pre></td></tr></table></figure>
+<h1 id="Cache-Control-缓存处理策略"><a href="#Cache-Control-缓存处理策略" class="headerlink" title="Cache-Control 缓存处理策略"></a>Cache-Control 缓存处理策略</h1><table>
+<thead>
+<tr>
+<th>值</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>public</td>
+<td>代理服务器和客户端都可缓存</td>
+</tr>
+<tr>
+<td>private</td>
+<td>仅客户端可以缓存</td>
+</tr>
+<tr>
+<td>no-cache</td>
+<td>请求头时表示不要缓存服务器的内容直接请求源服务器，响应头时表示浏览器每次必须先与服务器确认返回的响应是否被更改，然后才能使用该响应来满足后续对同一个网址的请求。</td>
+</tr>
+<tr>
+<td>no-store</td>
+<td>所有内容都不会被缓存到缓存或 Internet 临时文件中</td>
+</tr>
+<tr>
+<td>must-revalidation/proxy-revalidation</td>
+<td>如果缓存的内容失效，请求必须发送到服务器/代理以进行重新验证</td>
+</tr>
+<tr>
+<td>max-age=xxx</td>
+<td>请求头时表示只接受age小于这个值的缓存， 响应头时表示缓存的内容将在 xxx 秒后失效, 这个选项只在HTTP 1.1可用, 并如果和Last-Modified一起使用时, 优先级较高</td>
+</tr>
+</tbody>
+</table>
+<h1 id="常用头部"><a href="#常用头部" class="headerlink" title="常用头部"></a>常用头部</h1><h2 id="请求头"><a href="#请求头" class="headerlink" title="请求头"></a>请求头</h2><ul>
+<li>Connection ： close告诉服务端请求完不要保持这个链接直接关闭，keep-alive 告诉服务端请求完别关闭链接 还有后续请求。</li>
+<li>If-Modified-Since：如果请求的对象在该头部指定的时间之后修改了，才执行请求的动作（比如返回对象），否则返回代码304，告诉浏览器该对象没有修改。例如：If-Modified-Since：Thu, 10 Apr 2008 09:14:42 GMT</li>
+<li>If-None-Match：如果对象的 ETag 改变了，其实也就意味著对象也改变了，才执行请求的动作。</li>
+</ul>
+<h2 id="响应头"><a href="#响应头" class="headerlink" title="响应头"></a>响应头</h2><ul>
+<li>Cache-Control 缓存处理策略</li>
+<li>Content-Encoding 压缩方式gzip</li>
+<li>Content-Length 响应长度</li>
+<li>Content-Type 内容的类型 application/xml</li>
+<li>Transfer-Encoding 传输编码方式 目前只有chunked</li>
+<li>ETag 响应内容的签名</li>
+</ul>
+<h1 id="安全"><a href="#安全" class="headerlink" title="安全"></a>安全</h1><h2 id="csrf-跨站请求伪造-防范"><a href="#csrf-跨站请求伪造-防范" class="headerlink" title="csrf 跨站请求伪造  防范"></a>csrf 跨站请求伪造  防范</h2><ul>
+<li>判断referer</li>
+<li>表单中加入随机token，并且每次表单提交后变换token</li>
+</ul>
+<h2 id="xss-跨站脚本攻击-防范"><a href="#xss-跨站脚本攻击-防范" class="headerlink" title="xss 跨站脚本攻击 防范"></a>xss 跨站脚本攻击 防范</h2><ul>
+<li>过滤html java用spring的 HtmlUtils.htmlEscape php 用 htmlspecialchars</li>
+<li>必须输入html的地方 设置标签白名单，解析html重新整理。</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/http/" rel="tag"># http</a>
+          
+            <a href="/tags/网络/" rel="tag"># 网络</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/07/21/longest-subtring-without-repeat/" rel="next" title="longest substring without repeat">
+                <i class="fa fa-chevron-left"></i> longest substring without repeat
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/07/26/shell-find-and-replace/" rel="prev" title="shell 中的查找替换">
+                shell 中的查找替换 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/img/avatar.png"
+               alt="彭领" />
+          <p class="site-author-name" itemprop="name">彭领</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">21</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#格式"><span class="nav-number">1.</span> <span class="nav-text">格式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#常用错误码"><span class="nav-number">2.</span> <span class="nav-text">常用错误码</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#长连接（keep-alive）"><span class="nav-number">3.</span> <span class="nav-text">长连接（keep-alive）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#分块传输-Transfer-Encoding-chunked"><span class="nav-number">4.</span> <span class="nav-text">分块传输(Transfer-Encoding: chunked)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Cache-Control-缓存处理策略"><span class="nav-number">5.</span> <span class="nav-text">Cache-Control 缓存处理策略</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#常用头部"><span class="nav-number">6.</span> <span class="nav-text">常用头部</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#请求头"><span class="nav-number">6.1.</span> <span class="nav-text">请求头</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#响应头"><span class="nav-number">6.2.</span> <span class="nav-text">响应头</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安全"><span class="nav-number">7.</span> <span class="nav-text">安全</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#csrf-跨站请求伪造-防范"><span class="nav-number">7.1.</span> <span class="nav-text">csrf 跨站请求伪造  防范</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#xss-跨站脚本攻击-防范"><span class="nav-number">7.2.</span> <span class="nav-text">xss 跨站脚本攻击 防范</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2014 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">彭领</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

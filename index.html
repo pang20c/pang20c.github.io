@@ -276,6 +276,345 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.pengling.cc/2017/07/26/shell-find-and-replace/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="彭领">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/img/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="彭领的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/07/26/shell-find-and-replace/" itemprop="url">shell 中的查找替换</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-26T15:56:39+08:00">
+                2017-07-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/shell/" itemprop="url" rel="index">
+                    <span itemprop="name">shell</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <ul>
+<li>用sed实现多文本内容替换</li>
+</ul>
+<figure class="highlight clean"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sed -i <span class="string">'s/abc/ABC/g'</span> `grep -rl <span class="string">'abc'</span> /usr/local/`</div></pre></td></tr></table></figure>
+<p>其中<code>grep -l</code>的作用是只显示文件路径 不显示其他内容 方便传递给sed</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.pengling.cc/2017/07/24/http-protocol/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="彭领">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/img/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="彭领的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/07/24/http-protocol/" itemprop="url">http 知识点总结</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-24T18:20:57+08:00">
+                2017-07-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/网络/" itemprop="url" rel="index">
+                    <span itemprop="name">网络</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="格式"><a href="#格式" class="headerlink" title="格式"></a>格式</h1><p>HTTP报文 由 <code>报文头部</code> 和 <code>报文主体</code> 组成，两者用CRLF（\r\n）分割<br>报文头部 包括 请求行（请求） 或 状态行（响应）、首部字段、和其他（例如cookie）<br>首部字段也是用CRLF分割</p>
+<h1 id="常用错误码"><a href="#常用错误码" class="headerlink" title="常用错误码"></a>常用错误码</h1><ul>
+<li>301 永久跳转</li>
+<li>302 临时跳转</li>
+<li>304 文件未修改</li>
+<li>400 请求语法错误</li>
+<li>402 请求未授权</li>
+<li>403 禁止访问</li>
+<li>503 服务不可用</li>
+</ul>
+<h1 id="长连接（keep-alive）"><a href="#长连接（keep-alive）" class="headerlink" title="长连接（keep-alive）"></a>长连接（keep-alive）</h1><p>TCP链接建立需要三次握手，传输完数据又需要四次握手，如果每传输一次数据就建立一个tcp链接那是十分浪费资源的，为了能更高效的利用tcp链接在HTTP/1.0 中提出了<code>Connection: keep-alive</code>（在HTTP/1.1中这是个默认选项，不在需要客户端显示发送，能否启用该功能取决于服务端设定）,作用是当一块数据发送完之后不会关闭链接，而是等待后续的tcp请求，注意这里是等待tcp而不是等待后续的http，因为即使用了keep-alive 一个tcp链接也是只能处理一个http的请求响应的。而keep-alive带出的一个问题是接收数据的一端（一般是浏览器）如何判断这个链接的数据已经发送完了。有两种办法 一种是服务端在这次请求中事先就告诉客户端内容的长度即设置 <code>Content-Length:</code>头，比如<code>Content-Length:100</code> 那么客户端在收到第一百个字节的时候（指报文主体长度）就关闭链接，另一种是下面介绍的<code>分块传输</code></p>
+<h1 id="分块传输-Transfer-Encoding-chunked"><a href="#分块传输-Transfer-Encoding-chunked" class="headerlink" title="分块传输(Transfer-Encoding: chunked)"></a>分块传输(Transfer-Encoding: chunked)</h1><p>分块编码主要应用于如下场景，即要传输大量的数据，但是在请求在没有被处理完之前响应的长度是无法获得的，服务器无法预先知道<code>Content-Length</code>，这时候就可以在http头部设定<code>Transfer-Encoding: chunked</code> 告诉客户端我后面的数据是分块传输的，而每一块数据包括16进制的长度和真正的数据,而最后一个块必须是一个长度为0的块表示结束，客户端收到这个这个长度为0的块就可以发起<code>FIN</code>请求关闭链接了，更详细参见<a href="https://imququ.com/post/transfer-encoding-header-in-http.html" target="_blank" rel="external">这里</a></p>
+<figure class="highlight taggerscript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">HTTP/1.1 200 OK<span class="symbol">\r</span><span class="symbol">\n</span></div><div class="line">Transfer-Encoding: chunked<span class="symbol">\r</span><span class="symbol">\n</span></div><div class="line"><span class="symbol">\r</span><span class="symbol">\n</span></div><div class="line"></div><div class="line">b<span class="symbol">\r</span><span class="symbol">\n</span></div><div class="line">01234567890<span class="symbol">\r</span><span class="symbol">\n</span></div><div class="line"></div><div class="line">5<span class="symbol">\r</span><span class="symbol">\n</span></div><div class="line">12345<span class="symbol">\r</span><span class="symbol">\n</span></div><div class="line"></div><div class="line">0<span class="symbol">\r</span><span class="symbol">\n</span></div><div class="line"><span class="symbol">\r</span><span class="symbol">\n</span></div></pre></td></tr></table></figure>
+<h1 id="Cache-Control-缓存处理策略"><a href="#Cache-Control-缓存处理策略" class="headerlink" title="Cache-Control 缓存处理策略"></a>Cache-Control 缓存处理策略</h1><table>
+<thead>
+<tr>
+<th>值</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>public</td>
+<td>代理服务器和客户端都可缓存</td>
+</tr>
+<tr>
+<td>private</td>
+<td>仅客户端可以缓存</td>
+</tr>
+<tr>
+<td>no-cache</td>
+<td>请求头时表示不要缓存服务器的内容直接请求源服务器，响应头时表示浏览器每次必须先与服务器确认返回的响应是否被更改，然后才能使用该响应来满足后续对同一个网址的请求。</td>
+</tr>
+<tr>
+<td>no-store</td>
+<td>所有内容都不会被缓存到缓存或 Internet 临时文件中</td>
+</tr>
+<tr>
+<td>must-revalidation/proxy-revalidation</td>
+<td>如果缓存的内容失效，请求必须发送到服务器/代理以进行重新验证</td>
+</tr>
+<tr>
+<td>max-age=xxx</td>
+<td>请求头时表示只接受age小于这个值的缓存， 响应头时表示缓存的内容将在 xxx 秒后失效, 这个选项只在HTTP 1.1可用, 并如果和Last-Modified一起使用时, 优先级较高</td>
+</tr>
+</tbody>
+</table>
+<h1 id="常用头部"><a href="#常用头部" class="headerlink" title="常用头部"></a>常用头部</h1><h2 id="请求头"><a href="#请求头" class="headerlink" title="请求头"></a>请求头</h2><ul>
+<li>Connection ： close告诉服务端请求完不要保持这个链接直接关闭，keep-alive 告诉服务端请求完别关闭链接 还有后续请求。</li>
+<li>If-Modified-Since：如果请求的对象在该头部指定的时间之后修改了，才执行请求的动作（比如返回对象），否则返回代码304，告诉浏览器该对象没有修改。例如：If-Modified-Since：Thu, 10 Apr 2008 09:14:42 GMT</li>
+<li>If-None-Match：如果对象的 ETag 改变了，其实也就意味著对象也改变了，才执行请求的动作。</li>
+</ul>
+<h2 id="响应头"><a href="#响应头" class="headerlink" title="响应头"></a>响应头</h2><ul>
+<li>Cache-Control 缓存处理策略</li>
+<li>Content-Encoding 压缩方式gzip</li>
+<li>Content-Length 响应长度</li>
+<li>Content-Type 内容的类型 application/xml</li>
+<li>Transfer-Encoding 传输编码方式 目前只有chunked</li>
+<li>ETag 响应内容的签名</li>
+</ul>
+<h1 id="安全"><a href="#安全" class="headerlink" title="安全"></a>安全</h1><h2 id="csrf-跨站请求伪造-防范"><a href="#csrf-跨站请求伪造-防范" class="headerlink" title="csrf 跨站请求伪造  防范"></a>csrf 跨站请求伪造  防范</h2><ul>
+<li>判断referer</li>
+<li>表单中加入随机token，并且每次表单提交后变换token</li>
+</ul>
+<h2 id="xss-跨站脚本攻击-防范"><a href="#xss-跨站脚本攻击-防范" class="headerlink" title="xss 跨站脚本攻击 防范"></a>xss 跨站脚本攻击 防范</h2><ul>
+<li>过滤html java用spring的 HtmlUtils.htmlEscape php 用 htmlspecialchars</li>
+<li>必须输入html的地方 设置标签白名单，解析html重新整理。</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://www.pengling.cc/2017/07/21/longest-subtring-without-repeat/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1427,302 +1766,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://www.pengling.cc/2014/12/09/coreseek-install/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="彭领">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/img/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="彭领的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2014/12/09/coreseek-install/" itemprop="url">coreseek 从安装到使用总结</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2014-12-09T14:41:58+08:00">
-                2014-12-09
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/linux/" itemprop="url" rel="index">
-                    <span itemprop="name">linux</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>参考文章<br><a href="http://www.cnblogs.com/semonxv/p/3816376.html" target="_blank" rel="external">http://www.cnblogs.com/semonxv/p/3816376.html</a><br><a href="http://www.cnblogs.com/yjf512/p/3581869.html" target="_blank" rel="external">http://www.cnblogs.com/yjf512/p/3581869.html</a><br><a href="http://www.cnblogs.com/xingmeng/p/3723087.html" target="_blank" rel="external">http://www.cnblogs.com/xingmeng/p/3723087.html</a><br><a href="http://www.ibm.com/developerworks/cn/opensource/os-sphinx/" target="_blank" rel="external">http://www.ibm.com/developerworks/cn/opensource/os-sphinx/</a><br><a href="http://www.coreseek.cn/docs/coreseek_4.1-sphinx_2.0.1-beta.html" target="_blank" rel="external">http://www.coreseek.cn/docs/coreseek_4.1-sphinx_2.0.1-beta.html</a><br><a href="http://sphinxsearch.com/wiki/doku.php?id=sphinx_chinese_tutorial" target="_blank" rel="external">http://sphinxsearch.com/wiki/doku.php?id=sphinx_chinese_tutorial</a><br><a href="http://www.imsiren.com/archives/766" target="_blank" rel="external">http://www.imsiren.com/archives/766</a></p>
-<p>简单的说sphinx就是从某个数据源取过来数据（最常见的就是数据库） 生成索引文件（很类似数据库的索引） 然后利用索引实现快速搜索 </p>
-<p>#安装<br>安装mmseg 这是个中文分词库其实如果你不用分词就按中文汉字搜都不用安这个<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">wget http://www.coreseek.cn/uploads/csft/4.0/coreseek-4.1-beta.tar.gz</div><div class="line">tar zxvf coreseek-4.1-beta.tar.gz</div><div class="line"></div><div class="line"><span class="built_in">cd</span> coreseek-4.1-beta</div><div class="line"><span class="built_in">cd</span> mmseg-3.2.14</div><div class="line">./bootstrap</div><div class="line">./configure --prefix=/usr/<span class="built_in">local</span>/mmseg3</div><div class="line">make &amp;&amp; make install</div></pre></td></tr></table></figure></p>
-<p>中间出现的错误<br>error: possibly undefined macro: AM_PROG_LIBTOOL<br>办法<br>yum install libtool</p>
-<p>libtool: Version mismatch error.  This is libtool 2.2.6b<br>办法<br>直接复制 /usr/local/bin/litool到mmseg-3.2.14目录下，覆盖原来的libtool，然后重新make</p>
-<p>安装coreseek 这个是核心软件我们的整个服务都是基于它的<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">cd</span> /usr/<span class="built_in">local</span>/src/coreseek-4.1-beta</div><div class="line">./buildconf.sh</div><div class="line">./configure --prefix=/usr/<span class="built_in">local</span>/coreseek --with-mysql-includes=/usr/include/mysql/ --with-mysql-libs=/usr/lib64/mysql/ --with-mmseg=/usr/<span class="built_in">local</span>/mmseg/ --with-mmseg-includes=/usr/<span class="built_in">local</span>/mmseg/include/mmseg/ --with-mmseg-libs=/usr/<span class="built_in">local</span>/mmseg/lib/</div><div class="line">make</div><div class="line">make install</div></pre></td></tr></table></figure></p>
-<p>这里的mysql 是yum安装的所以分开指定mysql的头文件 和库文件</p>
-<p>安装完成之后/usr/local/coreseek/bin 目录下是它的几个主要可执行程序<br>indexer 这个程序是用来生成索引文件的<br>searchd 这个是对外提供接口服务的守护进程<br>search  这个是用来在命令行调试的不用在实际开发中<br>还有两个是导出用的还没研究</p>
-<p>#配置<br>mmseg基本不用配置 我也不会配置</p>
-<p>进coreseek的配置文件目录<br>/usr/local/coreseek/etc<br>这里面两个自带的配置文件 一个是带全部注释的 一个是精简版的配置文件<br>我们改造个精简版的来说下基本配置</p>
-<p>先在mysql建好一个文章表 news 测试用<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">+----------+----------------------+------+-----+---------+----------------+</div><div class="line">| Field    | Type                 | Null | Key | Default | Extra          |</div><div class="line">+----------+----------------------+------+-----+---------+----------------+</div><div class="line">| id       | int(11)              | NO   | PRI | NULL    | auto_increment |</div><div class="line">| title    | varchar(255)         | NO   |     | NULL    |                |</div><div class="line">| content  | text                 | NO   |     | NULL    |                |</div><div class="line">| catid    | smallint(5) unsigned | NO   |     | NULL    |                |</div><div class="line">| dateline | datetime             | NO   |     | NULL    |                |</div><div class="line">+----------+----------------------+------+-----+---------+----------------+</div></pre></td></tr></table></figure></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#</span></div><div class="line"><span class="comment"># Minimal Sphinx configuration sample (clean, simple, functional)</span></div><div class="line"><span class="comment">#</span></div><div class="line"></div><div class="line"><span class="built_in">source</span> src1</div><div class="line">&#123;</div><div class="line">        <span class="built_in">type</span>                    = mysql</div><div class="line"></div><div class="line">        sql_host                = localhost</div><div class="line">        sql_user                = root</div><div class="line">        sql_pass                =</div><div class="line">        sql_db                  = news</div><div class="line">        sql_port                = 3306  <span class="comment"># optional, default is 3306</span></div><div class="line">        sql_query_pre           = <span class="built_in">set</span> names utf8</div><div class="line">        sql_query               = \</div><div class="line">                SELECT id,catid , UNIX_TIMESTAMP(dateline) AS dateline, title, content \</div><div class="line">                FROM news</div><div class="line"></div><div class="line">        sql_attr_uint           = catid</div><div class="line">        sql_attr_timestamp      = dateline</div><div class="line">        sql_field_string        = title</div><div class="line">        sql_field_string        = content</div><div class="line">        sql_query_info          = SELECT * FROM news WHERE id=<span class="variable">$id</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">index test1</div><div class="line">&#123;</div><div class="line">        <span class="built_in">source</span>                  = src1</div><div class="line">        path                    = /usr/<span class="built_in">local</span>/coreseek/var/data/test1</div><div class="line">        docinfo                 = extern</div><div class="line">        charset_type            = zh_cn.utf-8 <span class="comment">#设置数据编码为UTF8</span></div><div class="line">        ngram_len               = 0</div><div class="line">        charset_dictpath        = /usr/<span class="built_in">local</span>/mmseg/etc/</div><div class="line">        <span class="comment">#html_strip             =1 #去掉HTML标签</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line">indexer</div><div class="line">&#123;</div><div class="line">        mem_limit               = 32M</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">searchd</div><div class="line">&#123;</div><div class="line">        listen                  = 9312</div><div class="line">        listen                  = 9306:mysql41</div><div class="line">        <span class="built_in">log</span>                     = /usr/<span class="built_in">local</span>/coreseek/var/<span class="built_in">log</span>/searchd.log</div><div class="line">        query_log               = /usr/<span class="built_in">local</span>/coreseek/var/<span class="built_in">log</span>/query.log</div><div class="line">        read_timeout            = 5</div><div class="line">        max_children            = 30</div><div class="line">        pid_file                = /usr/<span class="built_in">local</span>/coreseek/var/<span class="built_in">log</span>/searchd.pid</div><div class="line">        max_matches             = 1000</div><div class="line">        seamless_rotate         = 1</div><div class="line">        preopen_indexes         = 1</div><div class="line">        unlink_old              = 1</div><div class="line">        workers                 = threads <span class="comment"># for RT to work</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>主要分四大块</p>
-<blockquote>
-<p>source<br>数据源的配置 indexer在生成索引的时候就是根据这里的配置去读取mysql<br>sql_query_pre 这个是在主查询之前进行的sql操作 一般是设置字符集什么的<br>sql_query 这个就是核心的查询了 用来从数据库获取数据<br>sql<em>attr</em><em> 这个是属性 他是用来过滤用的相当于where的条件（把sphinx看成一种数据库就行）但是他是不能被全文检索的<br>sql<em>field</em></em> 这个是提供全文检索的字段 </p>
-<p>index<br>这个是索引的配置选项<br>path 指定索引文件生成目录<br>docinfo 表示属性信息的存储方式 none 不存贮 inline和索引存在一起 docinfo单独存放<br>charset_type 这个一定要设置成utf-8<br>ngram_len 和 ngram_chars 这个是对未分词的中文用的 因为咱们配置了分词 这里要把ngram_len=0 设置成关闭 表示消原有的一元字符切分模式，不使其对中文分词产生干扰；<br>charset_table 接受的字符表和大小写转换规则 这个也注释掉 交给mmseg去做这些 Coreseek 提供的MMseg分词法内置了可接受的字符表，并且用户不可修改。当启用分词功能时，自动开启。<br>charset_dictpath 这个是核心配置啦 指定分词词典文件的路径</p>
-<p>indexer<br>索引的一些配置项</p>
-<p>searchd<br>守护进程的配置项<br>listen的格式 listen = ( address “:” port | port | path ) [ “:” protocol ]<br>9312端口提供的是api方式调用<br>9306端口指定了协议是mysql41 也就是可以像操作mysql一样写sql语句来执行访问 具体见官方SphinxQL说明</p>
-</blockquote>
-<p>#使用<br>先用indexer生成索引<br> /usr/local/coreseek/bin/indexer -c /usr/local/coreseek/etc/sphinx.conf –all –rotate<br> 如果是第一次生成不用加rotate 如果searchd服务已经运行则必须加rotate 意思是先生成一个临时索引文件 生成完毕后将正式索引变更为这个文件<br>用search 测试一个搜索</p>
-<p>开启searchd服务<br>/usr/local/coreseek/bin/searchd -c /usr/local/coreseek/etc/sphinx.conf</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://www.pengling.cc/2014/11/21/mysql-reading-notes-basic/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="彭领">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/img/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="彭领的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2014/11/21/mysql-reading-notes-basic/" itemprop="url">深入浅出mysql读书笔记-基础篇</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2014-11-21T16:54:07+08:00">
-                2014-11-21
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/mysql/" itemprop="url" rel="index">
-                    <span itemprop="name">mysql</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>查看一个表的结构<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">mysql&gt; desc cats; </div><div class="line">+-------+------------------+------+-----+---------+----------------+</div><div class="line">| Field | Type             | Null | Key | Default | Extra          |</div><div class="line">+-------+------------------+------+-----+---------+----------------+</div><div class="line">| id    | int(10) unsigned | NO   | PRI | NULL    | auto_increment |</div><div class="line">| name  | char(15)         | NO   |     | NULL    |                |</div><div class="line">+-------+------------------+------+-----+---------+----------------+</div><div class="line">2 rows in set (0.04 sec)</div></pre></td></tr></table></figure></p>
-<p>查看一个表的创建语句<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">mysql&gt; show create table cats\G;</div><div class="line">*************************** 1. row ***************************</div><div class="line">       Table: cats</div><div class="line">Create Table: CREATE TABLE `cats` (</div><div class="line">  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,</div><div class="line">  `name` char(15) CHARACTER SET utf8 NOT NULL,</div><div class="line">  PRIMARY KEY (`id`)</div><div class="line">) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1</div><div class="line">1 row in set (0.00 sec)</div></pre></td></tr></table></figure></p>
-<p>修改字段的名字<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mysql&gt; alter table cats change `name` `cat_name` char(15);</div></pre></td></tr></table></figure></p>
-<p>分组统计后汇总<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">mysql&gt; select kind,count(1) from cats group by kind with rollup;</div><div class="line">+------+----------+</div><div class="line">| kind | count(1) |</div><div class="line">+------+----------+</div><div class="line">|    1 |        1 |</div><div class="line">|    2 |        2 |</div><div class="line">| NULL |        3 |</div><div class="line">+------+----------+</div></pre></td></tr></table></figure></p>
-<p>查询帮助文档<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">mysql&gt; ? grant</div><div class="line">Name: &apos;GRANT&apos;</div><div class="line">Description:</div><div class="line">Syntax:</div><div class="line">GRANT</div><div class="line">    priv_type [(column_list)]</div><div class="line">      [, priv_type [(column_list)]] ...</div><div class="line">    ON [object_type] priv_level</div><div class="line">    TO user_specification [, user_specification] ...</div><div class="line">    [REQUIRE &#123;NONE | ssl_option [[AND] ssl_option] ...&#125;]</div><div class="line">    [WITH with_option ...]</div></pre></td></tr></table></figure></p>
-<p>查询一个bit类型的字段<br><figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="section">mysql&gt; select flag+0,bin(flag),hex(flag) from cats where id = 10;</span></div><div class="line">+--------+-----------+-----------+</div><div class="line"><span class="section">| flag+0 | bin(flag) | hex(flag) |</span></div><div class="line">+--------+-----------+-----------+</div><div class="line"><span class="section">|     50 | 110010    | 32        |</span></div><div class="line">+--------+-----------+-----------+</div><div class="line">1 row in set (0.00 sec)</div></pre></td></tr></table></figure></p>
-<p>datetime 类型和dateline类型 的区别<br>datetime 是不分时区的 存进去是啥就是啥<br>dateline 是分时区的 取出时会按时区进行转换 另外它的默认值是CURRENT_TIMESTAMP 如果插入null则转为当前时间 并且一个表中只能有一个列有这个默认值 </p>
-<p>&lt;=&gt; 可以正确比较null值<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">select null = null;</div><div class="line">+-------------+</div><div class="line">| null = null |</div><div class="line">+-------------+</div><div class="line">|        NULL |</div><div class="line">+-------------+</div><div class="line">1 row in set (0.00 sec)</div><div class="line"></div><div class="line">select null&lt;=&gt;null;</div><div class="line">+-------------+</div><div class="line">| null&lt;=&gt;null |</div><div class="line">+-------------+</div><div class="line">|           1 |</div><div class="line">+-------------+</div><div class="line">1 row in set (0.00 sec)</div></pre></td></tr></table></figure></p>
-<p>将ip地址转换为数字<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">mysql&gt; select INET_ATON(&apos;192.168.0.1&apos;);</div><div class="line">+--------------------------+</div><div class="line">| INET_ATON(&apos;192.168.0.1&apos;) |</div><div class="line">+--------------------------+</div><div class="line">|               3232235521 |</div><div class="line">+--------------------------+</div><div class="line">1 row in set (0.00 sec)</div><div class="line"></div><div class="line">mysql&gt; select INET_NTOA(3232235521);</div><div class="line">+-----------------------+</div><div class="line">| INET_NTOA(3232235521) |</div><div class="line">+-----------------------+</div><div class="line">| 192.168.0.1           |</div><div class="line">+-----------------------+</div><div class="line">1 row in set (0.00 sec)</div></pre></td></tr></table></figure></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1773,7 +1816,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-count">19</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1784,7 +1827,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-count">9</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -1795,7 +1838,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-count">21</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
