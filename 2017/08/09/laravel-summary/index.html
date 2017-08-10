@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="php,laravel," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="彭领的博客" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="关键概念Ioc容器官方解释  Laravel 服务容器是一个用于管理类依赖和执行依赖注入的强大工具  个人理解，容器就是一个大箱子，可以往里注册一个类（当然不限于类，也可以是php中任何的变量，后边统称为服务），也可以从里往外拿已经注册过的类，他提供了一个上下文的环境，我们运行的所有类都是来自于这个大箱子。其最主要的方法是bind和make，bind是往箱子里塞东西即所谓的服务的绑定，make是从">
+<meta name="keywords" content="php,laravel">
+<meta property="og:type" content="article">
+<meta property="og:title" content="laravel 知识点总结">
+<meta property="og:url" content="http://www.pengling.cc/2017/08/09/laravel-summary/index.html">
+<meta property="og:site_name" content="彭领的博客">
+<meta property="og:description" content="关键概念Ioc容器官方解释  Laravel 服务容器是一个用于管理类依赖和执行依赖注入的强大工具  个人理解，容器就是一个大箱子，可以往里注册一个类（当然不限于类，也可以是php中任何的变量，后边统称为服务），也可以从里往外拿已经注册过的类，他提供了一个上下文的环境，我们运行的所有类都是来自于这个大箱子。其最主要的方法是bind和make，bind是往箱子里塞东西即所谓的服务的绑定，make是从">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-08-10T09:08:56.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="laravel 知识点总结">
+<meta name="twitter:description" content="关键概念Ioc容器官方解释  Laravel 服务容器是一个用于管理类依赖和执行依赖注入的强大工具  个人理解，容器就是一个大箱子，可以往里注册一个类（当然不限于类，也可以是php中任何的变量，后边统称为服务），也可以从里往外拿已经注册过的类，他提供了一个上下文的环境，我们运行的所有类都是来自于这个大箱子。其最主要的方法是bind和make，bind是往箱子里塞东西即所谓的服务的绑定，make是从">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.pengling.cc/2017/08/09/laravel-summary/"/>
+
+
+
+
+
+  <title>laravel 知识点总结 | 彭领的博客</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">彭领的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.pengling.cc/2017/08/09/laravel-summary/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="彭领">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/img/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="彭领的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">laravel 知识点总结</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-09T21:00:50+08:00">
+                2017-08-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/php/" itemprop="url" rel="index">
+                    <span itemprop="name">php</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="关键概念"><a href="#关键概念" class="headerlink" title="关键概念"></a>关键概念</h1><h2 id="Ioc容器"><a href="#Ioc容器" class="headerlink" title="Ioc容器"></a>Ioc容器</h2><p>官方解释</p>
+<blockquote>
+<p>Laravel 服务容器是一个用于管理类依赖和执行依赖注入的强大工具</p>
+</blockquote>
+<p>个人理解，容器就是一个大箱子，可以往里注册一个类（当然不限于类，也可以是php中任何的变量，后边统称为服务），也可以从里往外拿已经注册过的类，他提供了一个上下文的环境，我们运行的所有类都是来自于这个大箱子。<br>其最主要的方法是bind和make，bind是往箱子里塞东西即所谓的服务的绑定，make是从箱子里拿东西也就是所谓的服务的解析。</p>
+<p>在代码中获取容器可以通过 帮助函数<code>app()</code> 也可以通过门面类<code>App</code>，但一般不用主动获取，我们需要的服务完全可以通过容器自动注入，例如在构造函数中进行注入。</p>
+<h2 id="Facade模式"><a href="#Facade模式" class="headerlink" title="Facade模式"></a>Facade模式</h2><p>门面就是用来简化调用的，省去了我们从容器中获取服务的过程，门面就是一个静态代理，它通过<code>__callStatic()</code>方法代理容器中真正的服务。</p>
+<h2 id="服务提供者"><a href="#服务提供者" class="headerlink" title="服务提供者"></a>服务提供者</h2><p><code>服务提供者</code>可以理解为不同类型服务的配置文件，也可以理解为载入服务的工具类，通过这个配置文件可以把服务注册到容器中（通过register方法，而register方法的主要作用就是调用容器的bind进行服务绑定），也可以对服务进行初始化（通过boot方法），容器会维护一个映射关系保存一个服务是由哪个<code>服务提供者</code>来进行注册的，服务提供者可以延迟载入容器（注意是服务提供者不是服务，提供者被延迟了它提供的服务当然也会被延迟绑定），是通过设置<code>$defer = true</code>并提供一个<code>provides</code>方法，这个方法会返回这个<code>服务提供者</code>所能提供的服务，方便容器去维护那个映射关系，当我们真正需要去使用一个延迟的服务的时候，容器就会根据映射关系先找到服务提供者，然后通过服务提供者把这个服务注册到容器。</p>
+<h2 id="中间件"><a href="#中间件" class="headerlink" title="中间件"></a>中间件</h2><p>中间件就是处理流程中定义的一个个可插拔的处理环节，是管道模式的一种实现，中间件在<code>app/Http/Kernel</code>中配置，其中包括两类中间件 一类是全局中间件，即每个请求都会被应用这套处理，一类是路由中间件，只有匹配特定的路由的时候才会应用这些处理。关于管道模式参见 <a href="http://laravelacademy.org/post/3088.html" target="_blank" rel="external">这里</a></p>
+<h1 id="请求的生命周期"><a href="#请求的生命周期" class="headerlink" title="请求的生命周期"></a>请求的生命周期</h1><h2 id="启动准备阶段"><a href="#启动准备阶段" class="headerlink" title="启动准备阶段"></a>启动准备阶段</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="php"><span class="meta">&lt;?php</span></span></div><div class="line"><span class="keyword">require</span> <span class="keyword">__DIR__</span>.<span class="string">'/../bootstrap/autoload.php'</span>;</div><div class="line">$app = <span class="keyword">require_once</span> <span class="keyword">__DIR__</span>.<span class="string">'/../bootstrap/app.php'</span>;</div><div class="line">$kernel = $app-&gt;make(Illuminate\Contracts\Http\Kernel::class);</div><div class="line">$response = $kernel-&gt;handle($request = Illuminate\Http\Request::capture());</div><div class="line">$response-&gt;send();</div><div class="line">$kernel-&gt;terminate($request, $response);</div></pre></td></tr></table></figure>
+<p>请求到达index.php后首先载入自动加载文件autoload.php实现类的自动加载。<br>然后通过<code>bootstrap/app.php</code> 实例化容器<code>Application</code>，得到容器的实例<code>$app</code>，容器在初始化的时候会做几件事，会将自身的引用也注册入容器，方便后续程序调取，会注册两个基础服务提供者<code>EventServiceProvider</code> 和<code>RoutingServiceProvider</code></p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">&lt;?php</div><div class="line">$app = new Illuminate\Foundation\Application(</div><div class="line">    realpath(__DIR_<span class="number">_</span>.<span class="string">'/../'</span>)</div><div class="line">);</div><div class="line">$app-&gt;singleton(</div><div class="line">    Illuminate\Contracts\Http\Kernel::<span class="class"><span class="keyword">class</span>,</span></div><div class="line">    App\Http\Kernel::<span class="class"><span class="keyword">class</span></span></div><div class="line">);</div><div class="line">$app-&gt;singleton(</div><div class="line">    Illuminate\Contracts\Console\Kernel::<span class="class"><span class="keyword">class</span>,</span></div><div class="line">    App\Console\Kernel::<span class="class"><span class="keyword">class</span></span></div><div class="line">);</div><div class="line">$app-&gt;singleton(</div><div class="line">    Illuminate\Contracts\Debug\ExceptionHandler::<span class="class"><span class="keyword">class</span>,</span></div><div class="line">    App\Exceptions\Handler::<span class="class"><span class="keyword">class</span></span></div><div class="line">);</div><div class="line"><span class="keyword">return</span> $app;</div></pre></td></tr></table></figure>
+<p>接着从容器中取出Http\Kernel类 ，此类主要负责初始化环境以及调度各种服务完成一个http的处理流程 主要括中间件处理-&gt; 路由处理-&gt;控制器执行一系列的流程，是所有http处理的核心，类似linux的内核功能。</p>
+<h2 id="请求实例化"><a href="#请求实例化" class="headerlink" title="请求实例化"></a>请求实例化</h2><p><code>$request = Illuminate\Http\Request::capture()</code>，将请求相关信息封装到<code>Request</code>类中</p>
+<h2 id="请求处理"><a href="#请求处理" class="headerlink" title="请求处理"></a>请求处理</h2><p>进入到kernel的handle方法</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">protected</span> $bootstrappers = [</div><div class="line">        \Illuminate\Foundation\Bootstrap\LoadEnvironmentVariables::class,</div><div class="line">        \Illuminate\Foundation\Bootstrap\LoadConfiguration::class,</div><div class="line">        \Illuminate\Foundation\Bootstrap\HandleExceptions::class,</div><div class="line">        \Illuminate\Foundation\Bootstrap\RegisterFacades::class,</div><div class="line">        \Illuminate\Foundation\Bootstrap\RegisterProviders::class,</div><div class="line">        \Illuminate\Foundation\Bootstrap\BootProviders::class,</div><div class="line">    ];</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">handle</span><span class="params">($request)</span></span></div><div class="line">    &#123;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            $request-&gt;enableHttpMethodParameterOverride();</div><div class="line"></div><div class="line">            $response = <span class="keyword">$this</span>-&gt;sendRequestThroughRouter($request);</div><div class="line">        &#125; <span class="keyword">catch</span> (<span class="keyword">Exception</span> $e) &#123;</div><div class="line">            <span class="keyword">$this</span>-&gt;reportException($e);</div><div class="line"></div><div class="line">            $response = <span class="keyword">$this</span>-&gt;renderException($request, $e);</div><div class="line">        &#125; <span class="keyword">catch</span> (Throwable $e) &#123;</div><div class="line">            <span class="keyword">$this</span>-&gt;reportException($e = <span class="keyword">new</span> FatalThrowableError($e));</div><div class="line"></div><div class="line">            $response = <span class="keyword">$this</span>-&gt;renderException($request, $e);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">$this</span>-&gt;app[<span class="string">'events'</span>]-&gt;dispatch(</div><div class="line">            <span class="keyword">new</span> Events\RequestHandled($request, $response)</div><div class="line">        );</div><div class="line"></div><div class="line">        <span class="keyword">return</span> $response;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>handle 中会首先完成环境的检测、配置文件的加载、门面类的注册、服务提供者的注册、服务初始化等一系列初始化工作。其中最重要的是载入服务提供者，即配置在<code>config/app.php</code>中的provider。</p>
+<p>初始化完成后，通过<code>sendRequestThroughRouter</code>调用开始管道中的逐个中间件处理。</p>
+<figure class="highlight livescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">new</span> Pipeline<span class="function"><span class="params">($<span class="keyword">this</span>-&gt;app)</span>)</span></div><div class="line">                    -&gt;send<span class="function"><span class="params">($request)</span></span></div><div class="line">                    -&gt;through<span class="function"><span class="params">($<span class="keyword">this</span>-&gt;app-&gt;shouldSkipMiddleware() ? [] : $<span class="keyword">this</span>-&gt;middleware)</span></span></div><div class="line">                    -&gt;<span class="keyword">then</span>($<span class="keyword">this</span>-&gt;dispatchToRouter()</div></pre></td></tr></table></figure>
+<p>send 是发送到管道进行传递的对象，through是传递的过程，then是传递完成后的处理,注意在这里调用的是全局中间件。</p>
+<h2 id="路由处理"><a href="#路由处理" class="headerlink" title="路由处理"></a>路由处理</h2><p>全局中间件处理完毕后就进入到路由处理，路由这里又执行了一个管道处理，就是下面的这段代码，这里执行的中间件就是匹配这个路由的<code>路由中间件</code>。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">protected</span> <span class="function"><span class="keyword">function</span> <span class="title">runRouteWithinStack</span><span class="params">(Route $route, Request $request)</span></span></div><div class="line">    &#123;</div><div class="line">        $shouldSkipMiddleware = <span class="keyword">$this</span>-&gt;container-&gt;bound(<span class="string">'middleware.disable'</span>) &amp;&amp;</div><div class="line">                                <span class="keyword">$this</span>-&gt;container-&gt;make(<span class="string">'middleware.disable'</span>) === <span class="keyword">true</span>;</div><div class="line"></div><div class="line">        $middleware = $shouldSkipMiddleware ? [] : <span class="keyword">$this</span>-&gt;gatherRouteMiddleware($route);</div><div class="line"></div><div class="line">        <span class="keyword">return</span> (<span class="keyword">new</span> Pipeline(<span class="keyword">$this</span>-&gt;container))</div><div class="line">                        -&gt;send($request)</div><div class="line">                        -&gt;through($middleware)</div><div class="line">                        -&gt;then(<span class="function"><span class="keyword">function</span> <span class="params">($request)</span> <span class="title">use</span> <span class="params">($route)</span> </span>&#123;</div><div class="line">                            <span class="keyword">return</span> <span class="keyword">$this</span>-&gt;prepareResponse(</div><div class="line">                                $request, $route-&gt;run()</div><div class="line">                            );</div><div class="line">                        &#125;);</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<h2 id="执行控制器"><a href="#执行控制器" class="headerlink" title="执行控制器"></a>执行控制器</h2><p>管道处理的最后会交给<code>$route-&gt;run()</code>方法，开始调用我们写的控制器。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">run</span><span class="params">()</span></span></div><div class="line">    &#123;</div><div class="line">        <span class="keyword">$this</span>-&gt;container = <span class="keyword">$this</span>-&gt;container ?: <span class="keyword">new</span> Container;</div><div class="line"></div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            <span class="keyword">if</span> (<span class="keyword">$this</span>-&gt;isControllerAction()) &#123;</div><div class="line">                <span class="keyword">return</span> <span class="keyword">$this</span>-&gt;runController();</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            <span class="keyword">return</span> <span class="keyword">$this</span>-&gt;runCallable();</div><div class="line">        &#125; <span class="keyword">catch</span> (HttpResponseException $e) &#123;</div><div class="line">            <span class="keyword">return</span> $e-&gt;getResponse();</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>控制器执行完成后返回<code>Response</code>对象，控制权转回给Kernel开始对这个Response执行发送处理，最后执行终止处理调用中间件的<code>terminate</code>方法 ，完成整个生命周期。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/php/" rel="tag"># php</a>
+          
+            <a href="/tags/laravel/" rel="tag"># laravel</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/08/04/mac-config-xdebug/" rel="next" title="mac 环境配置xdebug 到phpstorm">
+                <i class="fa fa-chevron-left"></i> mac 环境配置xdebug 到phpstorm
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/img/avatar.png"
+               alt="彭领" />
+          <p class="site-author-name" itemprop="name">彭领</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">22</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#关键概念"><span class="nav-number">1.</span> <span class="nav-text">关键概念</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Ioc容器"><span class="nav-number">1.1.</span> <span class="nav-text">Ioc容器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Facade模式"><span class="nav-number">1.2.</span> <span class="nav-text">Facade模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#服务提供者"><span class="nav-number">1.3.</span> <span class="nav-text">服务提供者</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#中间件"><span class="nav-number">1.4.</span> <span class="nav-text">中间件</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#请求的生命周期"><span class="nav-number">2.</span> <span class="nav-text">请求的生命周期</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#启动准备阶段"><span class="nav-number">2.1.</span> <span class="nav-text">启动准备阶段</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#请求实例化"><span class="nav-number">2.2.</span> <span class="nav-text">请求实例化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#请求处理"><span class="nav-number">2.3.</span> <span class="nav-text">请求处理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#路由处理"><span class="nav-number">2.4.</span> <span class="nav-text">路由处理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#执行控制器"><span class="nav-number">2.5.</span> <span class="nav-text">执行控制器</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2014 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">彭领</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

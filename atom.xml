@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.pengling.cc/"/>
-  <updated>2017-07-26T08:01:19.000Z</updated>
+  <updated>2017-08-10T09:08:56.000Z</updated>
   <id>http://www.pengling.cc/</id>
   
   <author>
@@ -16,11 +16,221 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>laravel 知识点总结</title>
+    <link href="http://www.pengling.cc/2017/08/09/laravel-summary/"/>
+    <id>http://www.pengling.cc/2017/08/09/laravel-summary/</id>
+    <published>2017-08-09T13:00:50.000Z</published>
+    <updated>2017-08-10T09:08:56.000Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="关键概念"><a href="#关键概念" class="headerlink" title="关键概念"></a>关键概念</h1><h2 id="Ioc容器"><a href="#Ioc容器" class="headerlink" title="Ioc容器"></a>Ioc容器</h2><p>官方解释</p>
+<blockquote>
+<p>Laravel 服务容器是一个用于管理类依赖和执行依赖注入的强大工具</p>
+</blockquote>
+<p>个人理解，容器就是一个大箱子，可以往里注册一个类（当然不限于类，也可以是php中任何的变量，后边统称为服务），也可以从里往外拿已经注册过的类，他提供了一个上下文的环境，我们运行的所有类都是来自于这个大箱子。<br>其最主要的方法是bind和make，bind是往箱子里塞东西即所谓的服务的绑定，make是从箱子里拿东西也就是所谓的服务的解析。</p>
+<p>在代码中获取容器可以通过 帮助函数<code>app()</code> 也可以通过门面类<code>App</code>，但一般不用主动获取，我们需要的服务完全可以通过容器自动注入，例如在构造函数中进行注入。</p>
+<h2 id="Facade模式"><a href="#Facade模式" class="headerlink" title="Facade模式"></a>Facade模式</h2><p>门面就是用来简化调用的，省去了我们从容器中获取服务的过程，门面就是一个静态代理，它通过<code>__callStatic()</code>方法代理容器中真正的服务。</p>
+<h2 id="服务提供者"><a href="#服务提供者" class="headerlink" title="服务提供者"></a>服务提供者</h2><p><code>服务提供者</code>可以理解为不同类型服务的配置文件，也可以理解为载入服务的工具类，通过这个配置文件可以把服务注册到容器中（通过register方法，而register方法的主要作用就是调用容器的bind进行服务绑定），也可以对服务进行初始化（通过boot方法），容器会维护一个映射关系保存一个服务是由哪个<code>服务提供者</code>来进行注册的，服务提供者可以延迟载入容器（注意是服务提供者不是服务，提供者被延迟了它提供的服务当然也会被延迟绑定），是通过设置<code>$defer = true</code>并提供一个<code>provides</code>方法，这个方法会返回这个<code>服务提供者</code>所能提供的服务，方便容器去维护那个映射关系，当我们真正需要去使用一个延迟的服务的时候，容器就会根据映射关系先找到服务提供者，然后通过服务提供者把这个服务注册到容器。</p>
+<h2 id="中间件"><a href="#中间件" class="headerlink" title="中间件"></a>中间件</h2><p>中间件就是处理流程中定义的一个个可插拔的处理环节，是管道模式的一种实现，中间件在<code>app/Http/Kernel</code>中配置，其中包括两类中间件 一类是全局中间件，即每个请求都会被应用这套处理，一类是路由中间件，只有匹配特定的路由的时候才会应用这些处理。关于管道模式参见 <a href="http://laravelacademy.org/post/3088.html" target="_blank" rel="external">这里</a></p>
+<h1 id="请求的生命周期"><a href="#请求的生命周期" class="headerlink" title="请求的生命周期"></a>请求的生命周期</h1><h2 id="启动准备阶段"><a href="#启动准备阶段" class="headerlink" title="启动准备阶段"></a>启动准备阶段</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="php"><span class="meta">&lt;?php</span></span></div><div class="line"><span class="keyword">require</span> <span class="keyword">__DIR__</span>.<span class="string">'/../bootstrap/autoload.php'</span>;</div><div class="line">$app = <span class="keyword">require_once</span> <span class="keyword">__DIR__</span>.<span class="string">'/../bootstrap/app.php'</span>;</div><div class="line">$kernel = $app-&gt;make(Illuminate\Contracts\Http\Kernel::class);</div><div class="line">$response = $kernel-&gt;handle($request = Illuminate\Http\Request::capture());</div><div class="line">$response-&gt;send();</div><div class="line">$kernel-&gt;terminate($request, $response);</div></pre></td></tr></table></figure>
+<p>请求到达index.php后首先载入自动加载文件autoload.php实现类的自动加载。<br>然后通过<code>bootstrap/app.php</code> 实例化容器<code>Application</code>，得到容器的实例<code>$app</code>，容器在初始化的时候会做几件事，会将自身的引用也注册入容器，方便后续程序调取，会注册两个基础服务提供者<code>EventServiceProvider</code> 和<code>RoutingServiceProvider</code></p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">&lt;?php</div><div class="line">$app = new Illuminate\Foundation\Application(</div><div class="line">    realpath(__DIR_<span class="number">_</span>.<span class="string">'/../'</span>)</div><div class="line">);</div><div class="line">$app-&gt;singleton(</div><div class="line">    Illuminate\Contracts\Http\Kernel::<span class="class"><span class="keyword">class</span>,</span></div><div class="line">    App\Http\Kernel::<span class="class"><span class="keyword">class</span></span></div><div class="line">);</div><div class="line">$app-&gt;singleton(</div><div class="line">    Illuminate\Contracts\Console\Kernel::<span class="class"><span class="keyword">class</span>,</span></div><div class="line">    App\Console\Kernel::<span class="class"><span class="keyword">class</span></span></div><div class="line">);</div><div class="line">$app-&gt;singleton(</div><div class="line">    Illuminate\Contracts\Debug\ExceptionHandler::<span class="class"><span class="keyword">class</span>,</span></div><div class="line">    App\Exceptions\Handler::<span class="class"><span class="keyword">class</span></span></div><div class="line">);</div><div class="line"><span class="keyword">return</span> $app;</div></pre></td></tr></table></figure>
+<p>接着从容器中取出Http\Kernel类 ，此类主要负责初始化环境以及调度各种服务完成一个http的处理流程 主要括中间件处理-&gt; 路由处理-&gt;控制器执行一系列的流程，是所有http处理的核心，类似linux的内核功能。</p>
+<h2 id="请求实例化"><a href="#请求实例化" class="headerlink" title="请求实例化"></a>请求实例化</h2><p><code>$request = Illuminate\Http\Request::capture()</code>，将请求相关信息封装到<code>Request</code>类中</p>
+<h2 id="请求处理"><a href="#请求处理" class="headerlink" title="请求处理"></a>请求处理</h2><p>进入到kernel的handle方法</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">protected</span> $bootstrappers = [</div><div class="line">        \Illuminate\Foundation\Bootstrap\LoadEnvironmentVariables::class,</div><div class="line">        \Illuminate\Foundation\Bootstrap\LoadConfiguration::class,</div><div class="line">        \Illuminate\Foundation\Bootstrap\HandleExceptions::class,</div><div class="line">        \Illuminate\Foundation\Bootstrap\RegisterFacades::class,</div><div class="line">        \Illuminate\Foundation\Bootstrap\RegisterProviders::class,</div><div class="line">        \Illuminate\Foundation\Bootstrap\BootProviders::class,</div><div class="line">    ];</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">handle</span><span class="params">($request)</span></span></div><div class="line">    &#123;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            $request-&gt;enableHttpMethodParameterOverride();</div><div class="line"></div><div class="line">            $response = <span class="keyword">$this</span>-&gt;sendRequestThroughRouter($request);</div><div class="line">        &#125; <span class="keyword">catch</span> (<span class="keyword">Exception</span> $e) &#123;</div><div class="line">            <span class="keyword">$this</span>-&gt;reportException($e);</div><div class="line"></div><div class="line">            $response = <span class="keyword">$this</span>-&gt;renderException($request, $e);</div><div class="line">        &#125; <span class="keyword">catch</span> (Throwable $e) &#123;</div><div class="line">            <span class="keyword">$this</span>-&gt;reportException($e = <span class="keyword">new</span> FatalThrowableError($e));</div><div class="line"></div><div class="line">            $response = <span class="keyword">$this</span>-&gt;renderException($request, $e);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">$this</span>-&gt;app[<span class="string">'events'</span>]-&gt;dispatch(</div><div class="line">            <span class="keyword">new</span> Events\RequestHandled($request, $response)</div><div class="line">        );</div><div class="line"></div><div class="line">        <span class="keyword">return</span> $response;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>handle 中会首先完成环境的检测、配置文件的加载、门面类的注册、服务提供者的注册、服务初始化等一系列初始化工作。其中最重要的是载入服务提供者，即配置在<code>config/app.php</code>中的provider。</p>
+<p>初始化完成后，通过<code>sendRequestThroughRouter</code>调用开始管道中的逐个中间件处理。</p>
+<figure class="highlight livescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">new</span> Pipeline<span class="function"><span class="params">($<span class="keyword">this</span>-&gt;app)</span>)</span></div><div class="line">                    -&gt;send<span class="function"><span class="params">($request)</span></span></div><div class="line">                    -&gt;through<span class="function"><span class="params">($<span class="keyword">this</span>-&gt;app-&gt;shouldSkipMiddleware() ? [] : $<span class="keyword">this</span>-&gt;middleware)</span></span></div><div class="line">                    -&gt;<span class="keyword">then</span>($<span class="keyword">this</span>-&gt;dispatchToRouter()</div></pre></td></tr></table></figure>
+<p>send 是发送到管道进行传递的对象，through是传递的过程，then是传递完成后的处理,注意在这里调用的是全局中间件。</p>
+<h2 id="路由处理"><a href="#路由处理" class="headerlink" title="路由处理"></a>路由处理</h2><p>全局中间件处理完毕后就进入到路由处理，路由这里又执行了一个管道处理，就是下面的这段代码，这里执行的中间件就是匹配这个路由的<code>路由中间件</code>。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">protected</span> <span class="function"><span class="keyword">function</span> <span class="title">runRouteWithinStack</span><span class="params">(Route $route, Request $request)</span></span></div><div class="line">    &#123;</div><div class="line">        $shouldSkipMiddleware = <span class="keyword">$this</span>-&gt;container-&gt;bound(<span class="string">'middleware.disable'</span>) &amp;&amp;</div><div class="line">                                <span class="keyword">$this</span>-&gt;container-&gt;make(<span class="string">'middleware.disable'</span>) === <span class="keyword">true</span>;</div><div class="line"></div><div class="line">        $middleware = $shouldSkipMiddleware ? [] : <span class="keyword">$this</span>-&gt;gatherRouteMiddleware($route);</div><div class="line"></div><div class="line">        <span class="keyword">return</span> (<span class="keyword">new</span> Pipeline(<span class="keyword">$this</span>-&gt;container))</div><div class="line">                        -&gt;send($request)</div><div class="line">                        -&gt;through($middleware)</div><div class="line">                        -&gt;then(<span class="function"><span class="keyword">function</span> <span class="params">($request)</span> <span class="title">use</span> <span class="params">($route)</span> </span>&#123;</div><div class="line">                            <span class="keyword">return</span> <span class="keyword">$this</span>-&gt;prepareResponse(</div><div class="line">                                $request, $route-&gt;run()</div><div class="line">                            );</div><div class="line">                        &#125;);</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<h2 id="执行控制器"><a href="#执行控制器" class="headerlink" title="执行控制器"></a>执行控制器</h2><p>管道处理的最后会交给<code>$route-&gt;run()</code>方法，开始调用我们写的控制器。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">run</span><span class="params">()</span></span></div><div class="line">    &#123;</div><div class="line">        <span class="keyword">$this</span>-&gt;container = <span class="keyword">$this</span>-&gt;container ?: <span class="keyword">new</span> Container;</div><div class="line"></div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            <span class="keyword">if</span> (<span class="keyword">$this</span>-&gt;isControllerAction()) &#123;</div><div class="line">                <span class="keyword">return</span> <span class="keyword">$this</span>-&gt;runController();</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            <span class="keyword">return</span> <span class="keyword">$this</span>-&gt;runCallable();</div><div class="line">        &#125; <span class="keyword">catch</span> (HttpResponseException $e) &#123;</div><div class="line">            <span class="keyword">return</span> $e-&gt;getResponse();</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>控制器执行完成后返回<code>Response</code>对象，控制权转回给Kernel开始对这个Response执行发送处理，最后执行终止处理调用中间件的<code>terminate</code>方法 ，完成整个生命周期。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;关键概念&quot;&gt;&lt;a href=&quot;#关键概念&quot; class=&quot;headerlink&quot; title=&quot;关键概念&quot;&gt;&lt;/a&gt;关键概念&lt;/h1&gt;&lt;h2 id=&quot;Ioc容器&quot;&gt;&lt;a href=&quot;#Ioc容器&quot; class=&quot;headerlink&quot; title=&quot;Ioc容器&quot;&gt;
+    
+    </summary>
+    
+      <category term="php" scheme="http://www.pengling.cc/categories/php/"/>
+    
+    
+      <category term="php" scheme="http://www.pengling.cc/tags/php/"/>
+    
+      <category term="laravel" scheme="http://www.pengling.cc/tags/laravel/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>mac 环境配置xdebug 到phpstorm</title>
+    <link href="http://www.pengling.cc/2017/08/04/mac-config-xdebug/"/>
+    <id>http://www.pengling.cc/2017/08/04/mac-config-xdebug/</id>
+    <published>2017-08-04T10:03:06.000Z</published>
+    <updated>2017-08-04T15:12:29.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>本文的前置条件是使用brew安装php环境，其他方式请避让</p>
+<h2 id="安装xdebug扩展"><a href="#安装xdebug扩展" class="headerlink" title="安装xdebug扩展"></a>安装xdebug扩展</h2><p><code>brew install php56-xdebug</code> 安装完成后查看<code>brew info php56-xdebug</code> 查看xdebug配置文件路径 我的路径是<code>/usr/local/etc/php/5.6/conf.d/ext-xdebug.ini</code></p>
+<p>修改这个配置文件 增加远程调用的支持</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">xdebug<span class="selector-class">.remote_enable</span> = On</div><div class="line">xdebug<span class="selector-class">.remote_port</span> = <span class="number">9004</span></div></pre></td></tr></table></figure>
+<p><strong>注意</strong>这里的端口 不能和php-fpm的重复 所以改为9000之外的其他端口</p>
+<p>重启php-fpm <code>brew services restart php56</code></p>
+<p>运行phpinfo查看 xdebug是否配置正确</p>
+<h2 id="配置-phpstorm"><a href="#配置-phpstorm" class="headerlink" title="配置 phpstorm"></a>配置 phpstorm</h2><p>Phpstrom–&gt; Preferences.. 找到php选项，配置cli地址<br><img src="media/15018418358978.jpg" alt=""></p>
+<p><img src="media/15018418757327.jpg" alt=""></p>
+<p>再找到php文件夹下的debug配置xdebug的端口，注意要和ini文件中配置的一致才能远程调试</p>
+<p><img src="media/15018420640780.jpg" alt=""></p>
+<h2 id="创建Debug配置"><a href="#创建Debug配置" class="headerlink" title="创建Debug配置"></a>创建Debug配置</h2><p>可以远程调试的前提是 已经配置好了nginx或其他服务器 可以用本地ip访问到你的php页面</p>
+<p>增加调试配置<br><img src="media/15018442278043.jpg" alt=""></p>
+<p>增加一个web application 配置，serverc处点击更多，配置本地的服务器地址和端口<br><img src="media/15018443219352.jpg" alt=""></p>
+<p>至此配置完毕 可以点击绿臭虫图标开始断点调试</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;本文的前置条件是使用brew安装php环境，其他方式请避让&lt;/p&gt;
+&lt;h2 id=&quot;安装xdebug扩展&quot;&gt;&lt;a href=&quot;#安装xdebug扩展&quot; class=&quot;headerlink&quot; title=&quot;安装xdebug扩展&quot;&gt;&lt;/a&gt;安装xdebug扩展&lt;/h2&gt;&lt;p&gt;&lt;
+    
+    </summary>
+    
+      <category term="php" scheme="http://www.pengling.cc/categories/php/"/>
+    
+    
+      <category term="xdebug" scheme="http://www.pengling.cc/tags/xdebug/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>mac 下通过源码安装php扩展</title>
+    <link href="http://www.pengling.cc/2017/08/03/mac-install-php-extension-by-source/"/>
+    <id>http://www.pengling.cc/2017/08/03/mac-install-php-extension-by-source/</id>
+    <published>2017-08-03T07:40:25.000Z</published>
+    <updated>2017-08-04T10:04:38.000Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="安装源码包中存在的扩展"><a href="#安装源码包中存在的扩展" class="headerlink" title="安装源码包中存在的扩展"></a>安装源码包中存在的扩展</h1><p>以openssl为例进行安装 其他扩展类似</p>
+<h2 id="下载源码"><a href="#下载源码" class="headerlink" title="下载源码"></a>下载源码</h2><ul>
+<li>下载<code>git clone git@github.com:php/php-src.git</code></li>
+<li>执行<code>git tag | grep 5.6.0</code>找到需要的源码版本例如<code>php-5.6.0</code>，并切到此tag下<code>git checkout php-5.6.0</code></li>
+</ul>
+<h2 id="执行phpize"><a href="#执行phpize" class="headerlink" title="执行phpize"></a>执行phpize</h2><p>进入到扩展目录<code>ext/openssl</code>执行<code>phpize</code> 提示找不到config.m4 这个文件，解决办法<code>mv config0.m4 config.m4</code> 后，继续执行phpize 通过</p>
+<h2 id="执行configure"><a href="#执行configure" class="headerlink" title="执行configure"></a>执行configure</h2><p><code>./configure --with-php-config=/usr/local/bin/php-config</code> 报错提示找不到openssl头文件 <code>Cannot find OpenSSL&#39;s &lt;evp.h&gt;</code>,</p>
+<p>解决方案<code>./configure --with-php-config=/usr/local/bin/php-config --with-openssl=/usr/local/opt/openssl</code></p>
+<p>分析过程：</p>
+<ol>
+<li>首先尝试安装openssl，<code>brew install openssl</code> 安装后configure依然不能通过</li>
+<li>brew info openssl 查看安装信息，发现文末有这么一句提示<img src="media/15017479570718.jpg" alt=""></li>
+<li>尝试指定安装目录<code>./configure --with-php-config=/usr/local/bin/php-config --with-openssl=/usr/local/opt/openssl</code> 成功</li>
+</ol>
+<p>##编译安装so文件<br><code>make &amp;&amp; make install</code><br><img src="media/15017484579095.jpg" alt=""><br>用<code>php --info | grep php.ini</code>找到你的<code>php.ini</code>文件<br>在配置文件中添加<code>extension=openssl.so</code></p>
+<p><code>php -m|grep openssl</code>确认扩展已经安装<br>如果是php-fpm 重启php-fpm</p>
+<h1 id="补充-如何用brew-安装php"><a href="#补充-如何用brew-安装php" class="headerlink" title="补充-如何用brew 安装php"></a>补充-如何用brew 安装php</h1><p>官方的brew库里没有php需要先扩展brew的安装库<br><code>brew tap homebrew/php</code><br>然后执行 <code>brew install --without-apache --with-fpm --with-mysql php56</code><br>把新安装的php加入到系统路径<br><code>echo &#39;export PATH=&quot;$(brew --prefix homebrew/php/php56)/bin:$PATH&quot;&#39; &gt;&gt; ~/.zshrc</code> 注意我用zsh所有是.zshrc</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;安装源码包中存在的扩展&quot;&gt;&lt;a href=&quot;#安装源码包中存在的扩展&quot; class=&quot;headerlink&quot; title=&quot;安装源码包中存在的扩展&quot;&gt;&lt;/a&gt;安装源码包中存在的扩展&lt;/h1&gt;&lt;p&gt;以openssl为例进行安装 其他扩展类似&lt;/p&gt;
+&lt;h2 id=&quot;
+    
+    </summary>
+    
+      <category term="php" scheme="http://www.pengling.cc/categories/php/"/>
+    
+    
+      <category term="php" scheme="http://www.pengling.cc/tags/php/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>mysql 知识点总结</title>
+    <link href="http://www.pengling.cc/2017/07/26/mysql-summary/"/>
+    <id>http://www.pengling.cc/2017/07/26/mysql-summary/</id>
+    <published>2017-07-26T15:57:39.000Z</published>
+    <updated>2017-08-04T14:57:01.000Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="范式"><a href="#范式" class="headerlink" title="范式"></a>范式</h1><ul>
+<li>第一范式，所有字段都是原子性不可再拆解的</li>
+<li>第二范式，主键字段之外的字段都完全依赖主键，不能部分依赖主键</li>
+<li>第三范式，字段对主键的依赖必须是直接依赖，不能是传递依赖</li>
+</ul>
+<p>第二范式只有在组合主键的情况下才会出现，举例，订单条目表（订单id，商品id，商品数量，商品价格），订单id和商品id组合成为主键，但是商品价格只依赖于商品id，与订单id并没有直接的关系因此这样的表就不符合第二范式，商品价格属于冗余字段</p>
+<p>第三范式标识虽然在主键确定后其他属性的值也确定了但是却不是直接确定的而是经过了一步或多不的跳转，即主键 确定了属性A 属性A 又确定了属性B，这种情况就是违反第三范式的，举例，商品表（商品id，商品名，商品价格，分类id，分类名）其中商品id是主键，虽然知道了商品id能确定分类名是什么，但其实不是直接确定的，而是经过 商品-&gt;分类-&gt;分类名这样跳了一步 因此这样的表不符合第三范式</p>
+<h1 id="隔离级别"><a href="#隔离级别" class="headerlink" title="隔离级别"></a>隔离级别</h1><ul>
+<li>未提交读</li>
+<li>已提交读</li>
+<li>可重复读</li>
+<li>串行化</li>
+</ul>
+<p><img src="media/15010870833183.jpg" alt=""></p>
+<ul>
+<li>未提交读(Read Uncommitted)：允许脏读，也就是可能读取到其他会话中未提交事务修改的数据</li>
+<li>提交读(Read Committed)：只能读取到已经提交的数据。Oracle等多数数据库默认都是该级别 (不重复读)</li>
+<li>可重复读(Repeated Read)：可重复读。在同一个事务内的查询都是事务开始时刻一致的，InnoDB默认级别。在SQL标准中，该隔离级别消除了不可重复读，但是还存在幻象读</li>
+<li>串行读(Serializable)：完全串行化的读，每次读都需要获得表级共享锁，读写相互都会阻塞</li>
+</ul>
+<p>可重复读 是针对update来说的，即我每次同样select都得到同样的结果，只要我自己不更新，哪怕是别的事务更新了我看到的数据也不会有变化，通俗的说就是排除了外界的干扰。</p>
+<p>幻读 是针对insert来说的，比如我原来的where条件是 where a&gt;1 and a&lt;5 查出来了3条数据 1，2，3，这时候在我第二次执行这个查询的间隙，有别人执行了插入操作把 4 个插入进来了 ，第二次查询的结果就变成了1，2，3，4 这时候就叫出现了幻读，给行加锁没法阻止幻读，要给行间隙也加锁。</p>
+<h1 id="锁"><a href="#锁" class="headerlink" title="锁"></a>锁</h1><p>数据库采用两段锁协议，即将事务分为加锁阶段和解锁阶段。</p>
+<ul>
+<li>在加锁阶段，读操作会申请共享锁(S锁)，写操作会申请排他锁（X锁），如果锁申请不成功则整个事务阻塞等待。</li>
+<li>在解锁阶段事务开始释放锁，此时不能再重新的申请锁。</li>
+</ul>
+<h3 id="关于行锁"><a href="#关于行锁" class="headerlink" title="关于行锁"></a>关于行锁</h3><p>innodb的行锁，如果能利用到索引即在存储引擎层就能确定锁定的范围那么就会锁定指定的行，但是如果没有利用到所以那么存储引擎会先锁住整个表，然后返回给服务器层，服务器层再根据where条件通知存储引擎去释放没必要的锁。</p>
+<h3 id="不同隔离级别的锁"><a href="#不同隔离级别的锁" class="headerlink" title="不同隔离级别的锁"></a>不同隔离级别的锁</h3><p>虽然有四个隔离级别但是 未提交读和串行化一般是不开启的，因此我们只关注<code>提交读</code>和<code>可重复读</code>即可。</p>
+<p>在提交读级别（RC），读取数据是不加锁的，但是变动数据时要加锁，因为读没有加锁，所以会产生不可重复读和幻读。</p>
+<p>在可重复读级别（RR），mysql 采用MVCC（多版本并发控制，可以看成一种乐观锁）来实现可重复读，来实现可重复读 和 解决幻读</p>
+<p>在序列化这个级别，读加共享锁，写加排他锁。</p>
+<h2 id="MVCC"><a href="#MVCC" class="headerlink" title="MVCC"></a>MVCC</h2><p>innodb 会给每行数据添加两个隐藏的版本号，一个是创建版本号，一个是删除版本号，每一个事务都会有一个递增的版本号，行上面的两个版本号就是来自于事务。</p>
+<ul>
+<li>SELECT时，读取创建版本号&lt;=当前事务版本号，删除版本号为空或&gt;当前事务版本号（含义是找到自己事务开始时就已经创建，并且还没有被删除的数据）。</li>
+<li>INSERT时，保存当前事务版本号为行的创建版本号</li>
+<li>DELETE时，保存当前事务版本号为行的删除版本号（注意这一行数据还在，类似假删除）</li>
+<li>UPDATE时，插入一条新纪录，保存当前事务版本号为行创建版本号，同时保存当前事务版本号到原来删除的行（标记一个修改的时间点）</li>
+</ul>
+<p>举例A事务的版本号是1，它先创建了一条id=99的数据，然后读取where id=99这条记录 那么他的隐含查询条件是 where id=99 and create_version &lt;=1 and (delete_version = null or delete_version &gt; =1)<br>这时候如果版本号是2的事务B修改数据1 那么id=99的数据就会出现两条，一条是create_version = 2 delete_version = null的最新数据 一条是create_version = 1 delete_version = 2的历史数据。</p>
+<p>以上关于MVCC的解释是不准确的，但是只最容易理解的，详细的解释见 <a href="http://www.imooc.com/article/17290" target="_blank" rel="external">http://www.imooc.com/article/17290</a></p>
+<h2 id="常用查询函数"><a href="#常用查询函数" class="headerlink" title="常用查询函数"></a>常用查询函数</h2><h3 id="字符串函数"><a href="#字符串函数" class="headerlink" title="字符串函数"></a>字符串函数</h3><ul>
+<li>select concat(file1,file2,file3); 链接字符串</li>
+<li>select left(file1,3);取file1的最左边三个字符</li>
+<li>select replace(file1,’aaa’,’bbb’);字符串替换</li>
+</ul>
+<h3 id="时间函数"><a href="#时间函数" class="headerlink" title="时间函数"></a>时间函数</h3><ul>
+<li>select unix_timestamp(‘2017-08-03’); 返回时间戳</li>
+<li>select from_unixtime(1501689600);返回日期</li>
+</ul>
+<h2 id="数据库状态查看"><a href="#数据库状态查看" class="headerlink" title="数据库状态查看"></a>数据库状态查看</h2><ul>
+<li>show engines 查看数据库支持的引擎</li>
+<li>show status 数据库统计信息<ul>
+<li><code>show status like &#39;Com_select&#39;</code> 统计查询次数</li>
+<li><code>show status like &#39;Com_select&#39;</code> 统计查询次数</li>
+</ul>
+</li>
+<li>show index from table1</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;范式&quot;&gt;&lt;a href=&quot;#范式&quot; class=&quot;headerlink&quot; title=&quot;范式&quot;&gt;&lt;/a&gt;范式&lt;/h1&gt;&lt;ul&gt;
+&lt;li&gt;第一范式，所有字段都是原子性不可再拆解的&lt;/li&gt;
+&lt;li&gt;第二范式，主键字段之外的字段都完全依赖主键，不能部分依赖主键&lt;/li
+    
+    </summary>
+    
+      <category term="mysql" scheme="http://www.pengling.cc/categories/mysql/"/>
+    
+    
+      <category term="mysql" scheme="http://www.pengling.cc/tags/mysql/"/>
+    
+  </entry>
+  
+  <entry>
     <title>shell 中的查找替换</title>
     <link href="http://www.pengling.cc/2017/07/26/shell-find-and-replace/"/>
     <id>http://www.pengling.cc/2017/07/26/shell-find-and-replace/</id>
     <published>2017-07-26T07:56:39.000Z</published>
-    <updated>2017-07-26T08:01:19.000Z</updated>
+    <updated>2017-07-26T08:02:15.000Z</updated>
     
     <content type="html"><![CDATA[<ul>
 <li>用sed实现多文本内容替换</li>
@@ -52,7 +262,7 @@
     <link href="http://www.pengling.cc/2017/07/24/http-protocol/"/>
     <id>http://www.pengling.cc/2017/07/24/http-protocol/</id>
     <published>2017-07-24T10:20:57.000Z</published>
-    <updated>2017-07-26T08:02:07.000Z</updated>
+    <updated>2017-08-01T03:39:09.000Z</updated>
     
     <content type="html"><![CDATA[<h1 id="格式"><a href="#格式" class="headerlink" title="格式"></a>格式</h1><p>HTTP报文 由 <code>报文头部</code> 和 <code>报文主体</code> 组成，两者用CRLF（\r\n）分割<br>报文头部 包括 请求行（请求） 或 状态行（响应）、首部字段、和其他（例如cookie）<br>首部字段也是用CRLF分割</p>
 <h1 id="常用错误码"><a href="#常用错误码" class="headerlink" title="常用错误码"></a>常用错误码</h1><ul>
@@ -122,6 +332,30 @@
 <li>过滤html java用spring的 HtmlUtils.htmlEscape php 用 htmlspecialchars</li>
 <li>必须输入html的地方 设置标签白名单，解析html重新整理。</li>
 </ul>
+<h2 id="HTTPS流程"><a href="#HTTPS流程" class="headerlink" title="HTTPS流程"></a>HTTPS流程</h2><p><img src="media/15015587412678.jpg" alt=""></p>
+<ol>
+<li><p>客户端发送<code>ClientHello</code>请求到服务器，主要包括以下信息</p>
+<blockquote>
+<p>客户端协议的版本 如TLS 1.0<br>支持的加密算法 如RSA<br>支持的压缩算法<br>一个随机数（1）</p>
+</blockquote>
+</li>
+<li><p>服务器回应<code>SeverHello</code>,包括以下信息</p>
+<blockquote>
+<p>确认加密协议版本 如TLS 1.0<br>确认加密算法<br>服务器整数<br>一个随机数（2）</p>
+</blockquote>
+</li>
+<li><p>客户端验证证书的有效性，提取证书中的公钥，回复下面三个信息</p>
+<blockquote>
+<p>用证书中的公钥加密一个 随机数（3）这个随机数也成为 pre-master key<br>编码改变通知，表示随后用加密方式通信<br>客户端握手结束通知</p>
+</blockquote>
+</li>
+<li><p>最后客户端回复确认消息包括</p>
+<blockquote>
+<p>编码改变通知<br>服务器握手结束通知  </p>
+</blockquote>
+</li>
+</ol>
+<p>TLS 详细说明 <a href="https://imququ.com/post/optimize-tls-handshake.html" target="_blank" rel="external">https://imququ.com/post/optimize-tls-handshake.html</a></p>
 ]]></content>
     
     <summary type="html">
@@ -653,118 +887,6 @@
     
     
       <category term="Python" scheme="http://www.pengling.cc/tags/Python/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>putty通过密钥自动登陆 关闭密码登陆</title>
-    <link href="http://www.pengling.cc/2014/09/24/change-the-ssh-port-and-auto-login/"/>
-    <id>http://www.pengling.cc/2014/09/24/change-the-ssh-port-and-auto-login/</id>
-    <published>2014-09-24T03:45:04.000Z</published>
-    <updated>2017-07-21T00:24:54.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>自己的服务器总是被别人扫描 看着心里就不爽 于是决定改ssh的登陆关口关掉密码登陆</p>
-<p>#修改ssh登陆端口<br>这个简单修改sshd的配置文件就OK了<br>打开 /etc/ssh/sshd_config<br>修改里面的Port</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Port 2014</div><div class="line"><span class="comment">#ListenAddress 0.0.0.0</span></div><div class="line"><span class="comment">#ListenAddress ::</span></div></pre></td></tr></table></figure>
-<p>注意的是如果开着防火墙别忘了在防火墙上新开个端口</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#加入新的端口</span></div><div class="line">iptables -A INPUT -p tcp -m tcp --dport 2014 -j ACCEPT</div><div class="line"><span class="comment">#找到原来22端口的那条id 比如是1</span></div><div class="line">iptables -nL --line-nunmber</div><div class="line"><span class="comment">#删除掉他</span></div><div class="line">iptables -D INPUT 1</div><div class="line">service iptables save</div></pre></td></tr></table></figure>
-<p>修改完重启下sshd服务</p>
-<h1 id="用密钥登陆服务器"><a href="#用密钥登陆服务器" class="headerlink" title="用密钥登陆服务器"></a>用密钥登陆服务器</h1><p>大体的原理很简单就是一个非对称加密解密的过程<br>生成两个密钥（这里我用的<a href="http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html" target="_blank" rel="external">PuTTYgen</a>）一个公钥 一个私钥<br>公钥放在服务器上 私钥放在你自己的电脑上 就OK了</p>
-<p>我windows电脑上用的PuTTY 下面说用这个软件的免密码登陆流程<br>具体流程：</p>
-<ul>
-<li><p>用PuTTYgen生成一对密钥,注意那个文字提示要鼠标不停的在那动才能生成(- -!)<br><img src="/img/putty_1.jpg" alt="生成密钥"><br>生成完了之后私钥保存到你本地一个地方 他会提示你是否确认没设密码就存 我要无密码登陆那就不设了<br>公钥呢就没必要存了 那个进度条下面的那段文字 复制一下就行了 一会粘到服务器里去</p>
-</li>
-<li><p>到你服务器上去在用户目录下新建一个.ssh目录 在这个目录下新建一个 authorized_keys文件（当然也不一定叫这个可以在上面说到的sshd_config里去修改这个文件名）<br>编辑这个文件把刚才的公钥字符串粘进去 其实这个文件是可以有多个公钥的 一行一个就行了</p>
-</li>
-<li><p>回到你本地putty上配置<br>编辑一条记录,选择你刚才生成的私钥，别忘了保存<br><img src="/img/putty_2.jpg" alt="修改密钥文件地址"><br>好了现在去登陆吧<br>会提示你输入用户名 输入完用户名不用密码就能登陆进去了<br>如果你连用户名也不想输入 那编辑putty的默认用户名就行了<br><img src="/img/putty_3.jpg" alt="修改默认用户名"></p>
-</li>
-</ul>
-<p>#关闭密码登陆<br>还是编辑/etc/ssh/sshd_config<br>找到最下面的<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">PasswordAuthentication no</div><div class="line"><span class="comment">#默认是yes改成no就行了</span></div></pre></td></tr></table></figure></p>
-<p>重启sshd<br><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">service sshd restart</span></div></pre></td></tr></table></figure></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;自己的服务器总是被别人扫描 看着心里就不爽 于是决定改ssh的登陆关口关掉密码登陆&lt;/p&gt;
-&lt;p&gt;#修改ssh登陆端口&lt;br&gt;这个简单修改sshd的配置文件就OK了&lt;br&gt;打开 /etc/ssh/sshd_config&lt;br&gt;修改里面的Port&lt;/p&gt;
-&lt;figure cl
-    
-    </summary>
-    
-      <category term="linux" scheme="http://www.pengling.cc/categories/linux/"/>
-    
-    
-      <category term="ssh" scheme="http://www.pengling.cc/tags/ssh/"/>
-    
-      <category term="linux" scheme="http://www.pengling.cc/tags/linux/"/>
-    
-      <category term="security" scheme="http://www.pengling.cc/tags/security/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>用mailx 在linux上发送邮件</title>
-    <link href="http://www.pengling.cc/2014/09/23/use-mailx/"/>
-    <id>http://www.pengling.cc/2014/09/23/use-mailx/</id>
-    <published>2014-09-23T08:09:00.000Z</published>
-    <updated>2017-07-21T00:24:54.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>最近突然想把服务器上的日志 通过邮件发送出去 于是收集整理了一下关于在linux上发送邮件的知识</p>
-<p>#理论基础</p>
-<h2 id="MUA-MTA-MDA"><a href="#MUA-MTA-MDA" class="headerlink" title="MUA MTA MDA"></a>MUA MTA MDA</h2><p><a href="http://emo17emo17.blogspot.com/2009/03/blog-post_30.html" target="_blank" rel="external">http://emo17emo17.blogspot.com/2009/03/blog-post_30.html</a><br><a href="http://blog.sina.com.cn/s/blog_726618d901011n8s.html" target="_blank" rel="external">http://blog.sina.com.cn/s/blog_726618d901011n8s.html</a></p>
-<p>网上关于邮件发送流程分析的文章很多 找了两篇讲解的比较好的<br>最主要的是理解MUA MTA MDA 三个概念 前两个比较好理解 一个是客户端一个是服务器 但是这个MDA看了好几篇文章才算清楚了点</p>
-<p>其实邮件服务器的结构很类似我们常见的http服务器 </p>
-<p>MTA 就像是nginx 他接收来自客户端的请求 但是MTA他只是接收和发送功能 他是不处理具体的邮件逻辑的 他只是网络部分</p>
-<p>MDA 呢就像是nginx后面cgi程序 他才是真正处理邮件逻辑的程序 例如过滤垃圾邮件啊 自动回复什么的</p>
-<h2 id="SMTP-POP3-IMAP"><a href="#SMTP-POP3-IMAP" class="headerlink" title="SMTP POP3/IMAP"></a>SMTP POP3/IMAP</h2><p>邮件协议<br>简单的说SMTP 是发邮件用的 POP3/IMAP 是读邮件用的</p>
-<p>至于POP3和IMAP的区别 见网易的一个<a href="http://help.163.com/10/0203/13/5UJONJ4I00753VB8.html?servCode=6010237" target="_blank" rel="external">解释</a> </p>
-<p>#发送邮件<br>我们不是要搭建一个邮件服务器 我们只是要在linux上发送邮件<br>也就是说我们要扮演的是个MUA的角色 至于怎么搭建自己的邮件服务器 以后学会了再说现在还是看着挺晕的<br>用到的是系统自带的mailx软件<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">rpm -qa | grep mailx</div><div class="line">libreport-plugin-mailx-2.0.9-19.el6.centos.x86_64</div><div class="line">mailx-12.4-7.el6.x86_64</div></pre></td></tr></table></figure></p>
-<p>他的配置文件在<br><figure class="highlight awk"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="regexp">/etc/m</span>ail.rc</div></pre></td></tr></table></figure></p>
-<p>编辑这个文件<br>加上咱的smtp服务器配置信息<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">set</span> from=pengling@163.com</div><div class="line"><span class="built_in">set</span> smtp=smtp.163.com</div><div class="line"><span class="built_in">set</span> smtp-auth-user=pengling</div><div class="line"><span class="built_in">set</span> smtp-auth-password=111111</div><div class="line"><span class="built_in">set</span> smtp-auth=login</div></pre></td></tr></table></figure></p>
-<p>好了配置完了<br>发个邮件试试<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">echo</span> hello word | mailx -v -s <span class="string">'测试邮件'</span> 461921766@qq.com</div></pre></td></tr></table></figure></p>
-<p>OK </p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;最近突然想把服务器上的日志 通过邮件发送出去 于是收集整理了一下关于在linux上发送邮件的知识&lt;/p&gt;
-&lt;p&gt;#理论基础&lt;/p&gt;
-&lt;h2 id=&quot;MUA-MTA-MDA&quot;&gt;&lt;a href=&quot;#MUA-MTA-MDA&quot; class=&quot;headerlink&quot; title=&quot;M
-    
-    </summary>
-    
-      <category term="linux" scheme="http://www.pengling.cc/categories/linux/"/>
-    
-    
-      <category term="linux" scheme="http://www.pengling.cc/tags/linux/"/>
-    
-      <category term="mail" scheme="http://www.pengling.cc/tags/mail/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>my first blog</title>
-    <link href="http://www.pengling.cc/2014/09/22/my-first-blog/"/>
-    <id>http://www.pengling.cc/2014/09/22/my-first-blog/</id>
-    <published>2014-09-22T15:45:11.000Z</published>
-    <updated>2017-07-21T00:24:54.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>##第一篇博客就从今天开始吧</p>
-<p>记录我的学习、生活、工作的思考总结</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;##第一篇博客就从今天开始吧&lt;/p&gt;
-&lt;p&gt;记录我的学习、生活、工作的思考总结&lt;/p&gt;
-
-    
-    </summary>
-    
-      <category term="其他" scheme="http://www.pengling.cc/categories/%E5%85%B6%E4%BB%96/"/>
-    
-    
-      <category term="其他" scheme="http://www.pengling.cc/tags/%E5%85%B6%E4%BB%96/"/>
     
   </entry>
   

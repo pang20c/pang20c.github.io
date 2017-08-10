@@ -276,6 +276,578 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.pengling.cc/2015/02/27/remove-space-by-preg-replace-s/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="彭领">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/img/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="彭领的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2015/02/27/remove-space-by-preg-replace-s/" itemprop="url">preg_replace \s 去不掉的空格</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-02-27T17:42:11+08:00">
+                2015-02-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/php/" itemprop="url" rel="index">
+                    <span itemprop="name">php</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>在做文章摘要功能时需要去除多余的空格，但是有一排空格却一直去不掉<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$str = <span class="string">'　　　　11111'</span>;</div><div class="line">$str = preg_replace(<span class="string">"/[\s]/"</span>,<span class="string">''</span>,$str);</div><div class="line"><span class="keyword">echo</span> $str;<span class="comment">#输出后发现还是有开头的空格</span></div></pre></td></tr></table></figure></p>
+<p>后来一次偶然的尝试发现正则如果修改为/[\s]/u 就可以去除掉了</p>
+<p>官方的解释是u修饰符修正了perl 正则与utf-8编码不兼容的模式 </p>
+<p>一番折腾 我把那个特殊的空格字符转换成unicode编码后 他的编码是 \u3000<br>那么我直接用正则去匹配这个unicode的可以么 ？测试后也是可行的<br>写法如下 （以下纯属折腾以加深印象当然还是  /[\s]/u 最简单）<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$str = <span class="string">'　　　　11111'</span>;</div><div class="line">$str = preg_replace(<span class="string">"/[\x&#123;3000&#125;]/u"</span>,<span class="string">''</span>,$str);</div><div class="line"><span class="keyword">echo</span> $str;</div></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.pengling.cc/2015/01/16/install-linux-server-by-source/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="彭领">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/img/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="彭领的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2015/01/16/install-linux-server-by-source/" itemprop="url">install linux server by source</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-01-16T17:19:23+08:00">
+                2015-01-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/linux/" itemprop="url" rel="index">
+                    <span itemprop="name">linux</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>安装第三方yum源<br>wget <a href="http://www.atomicorp.com/installers/atomic" target="_blank" rel="external">http://www.atomicorp.com/installers/atomic</a><br>sh ./atomic</p>
+<p>安装依赖软件<br>yum -y install gcc gcc-c++ autoconf libjpeg libjpeg-devel libpng libpng-devel freetype freetype-devel libxml2 libxml2-devel zlib zlib-devel glibc glibc-devel glib2 glib2-devel bzip2 bzip2-devel ncurses ncurses-devel curl curl-devel e2fsprogs e2fsprogs-devel krb5 krb5-devel libidn libidn-devel openssl openssl-devel  cmake bison  libmcrypt  libmcrypt-devel libtool libtool-ltdl libtool-ltdl-devel openldap openldap-devel</p>
+<p>##nginx安装</p>
+<p>下载<a href="http://sourceforge.net/projects/pcre/files/pcre/8.35/pcre-8.35.tar.gz/download" target="_blank" rel="external">pcre</a> 源码包并解压<br>tar -zxvf pcre-8.35.tar.gz</p>
+<p>添加www用户<br>useradd -Mrs /sbin/nologin www</p>
+<p>下载nginx<br>wget <a href="http://nginx.org/download/nginx-1.7.9.tar.gz" target="_blank" rel="external">http://nginx.org/download/nginx-1.7.9.tar.gz</a><br>tar -zxvf nginx-1.7.9.tar.gz<br>cd nginx-1.7.9</p>
+<p>开始编译安装nginx<br> ./configure –user=www –group=www –prefix=/usr/local/nginx –with-http_stub_status_module –with-http_ssl_module –with-pcre=/usr/local/src/pcre-8.35  –with-http_realip_module<br> make &amp;&amp; make install</p>
+<p> ##mysql5.5安装<br>useradd -Mrs /sbin/nologin mysql<br>unzip mysql-server-5.5.zip<br>cd mysql-server-5.5</p>
+<p>cmake -DCMAKE_INSTALL_PREFIX=/usr/local/mysql -DMYSQL_DATADIR=/usr/local/mysql/data -DINSTALL_LIBDIR=/usr/lib -DSYSCONFDIR=/etc -DWITH_INNOBASE_STORAGE_ENGINE=1 -DMYSQL_UNIX_ADDR=/var/lib/mysql/mysql.sock -DMYSQL_TCP_PORT=3306 -DENABLED_LOCAL_INFILE=1 -DWITH_PARTITION_STORAGE_ENGINE=1 -DEXTRA_CHARSETS=all -DDEFAULT_CHARSET=utf8 -DDEFAULT_COLLATION=utf8_general_ci</p>
+<p>make<br>make install </p>
+<p>cd /usr/local/mysql/</p>
+<p>chown -R mysql:mysql .</p>
+<p>scripts/mysql_install_db –user=mysql –basedir=/usr/local/mysql/ –datadir=/usr/local/mysql/data/</p>
+<p>cp support-files/my-medium.cnf /etc/my.cnf</p>
+<p>bin/mysqld_safe –user=mysql &amp;  启动mysql</p>
+<p>##php 5.6.4 安装</p>
+<p>cp -frp /usr/lib64/libldap* /usr/lib/<br>ldconfig -v<br>./configure –prefix=/usr/local/php –with-config-file-path=/usr/local/php/etc –with-mysql –with-mysqli=/usr/local/mysql/bin/mysql_config –with-iconv-dir=/usr/local –with-freetype-dir –with-jpeg-dir –with-png-dir –with-zlib –with-libxml-dir=/usr –enable-xml –disable-rpath –enable-discard-path –enable-safe-mode –enable-bcmath –enable-shmop –enable-sysvsem –enable-inline-optimization –with-curl –with-curlwrappers –enable-mbregex –enable-fastcgi –enable-fpm –enable-force-cgi-redirect –enable-mbstring –with-mcrypt –with-gd –enable-gd-native-ttf –with-openssl –with-mhash –enable-pcntl –enable-sockets –with-ldap –with-ldap-sasl –with-xmlrpc –enable-zip –enable-soap –without-pear –with-zlib –enable-pdo –with-pdo-mysql</p>
+<p>注意这里的 –with-mysql 如果在编译mysql的时候 没有指定-DINSTALL_LIBDIR=/usr/lib 那么这里需要写成mysql的安装路径<br>如果报 Don’t know how to define struct flock on this system, set –enable-opcache=no 是由于没有找到mysql的库文件导致的<br>可以先运行ldconfig -v 命令 看看mysql的库文件有没有被加载进来 这个ldconfig就是用来加载动态链接库的<br>如果没有被加载进来  编辑 vi /etc/ld.so.conf.d/local.conf （这个local.conf 是随便起的 *.conf 的文件都会被加载）<br>在这个文件里加入你的库文件路径 例如 /usr/lib  保存退出后再次运行 ldconfig -v 注意不要重复引入 然后重新编译</p>
+<p>make &amp;&amp; make install</p>
+<p>##php memcached扩展安装<br> wget <a href="https://launchpad.net/libmemcached/1.0/1.0.18/+download/libmemcached-1.0.18.tar.gz" target="_blank" rel="external">https://launchpad.net/libmemcached/1.0/1.0.18/+download/libmemcached-1.0.18.tar.gz</a><br> tar -zxvf libmemcached-1.0.18.tar.gz<br> cd libmemcached-1.0.18<br> ./configure –with-memcached –prefix=/usr/local/libmemcached<br> make &amp;&amp; make install</p>
+<p> wget <a href="http://pecl.php.net/get/memcached-2.2.0.tgz" target="_blank" rel="external">http://pecl.php.net/get/memcached-2.2.0.tgz</a><br> tar -zxvf memcached-2.2.0.tgz<br> cd memcached-2.2.0<br> /usr/local/php/bin/phpize<br> ./configure –enable-memcached –with-php-config=/usr/local/php/bin/php-config –with-libmemcached-dir=/usr/local/libmemcached<br> make &amp;&amp; make install</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.pengling.cc/2015/01/04/binlog-do-db-binlog-ignore-db/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="彭领">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/img/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="彭领的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2015/01/04/binlog-do-db-binlog-ignore-db/" itemprop="url">mysql主从 binlog-do-db 和 binlog-ignore-db</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-01-04T14:27:11+08:00">
+                2015-01-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/mysql/" itemprop="url" rel="index">
+                    <span itemprop="name">mysql</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>和 binlog-do-db，binlog-ignore-db对应的是replicate-do-db,replicate-ignore-db 前者对应的是master后者则是在从服务器上<br>检查的顺序是 </p>
+<ol>
+<li>如果没有设置任何的binlog-do-db 和 binlog-ignore-db则记录全部操作 如果有继续后面判断</li>
+<li>是否有use任何库 如果没有则不记录日志 如果有继续后续判断</li>
+<li>如果设置了 binlog-do-db 那么只记录binlog-do-db的数据库 其他的都不记录 如果没有设置任何binlog-do-db 才会去判断binlog-ignore-db</li>
+<li>判断是否在binlog-ignore-db 如果有则不写入日志 如果没有则写入日志</li>
+</ol>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.pengling.cc/2014/12/30/install-mysql-from-source/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="彭领">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/img/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="彭领的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2014/12/30/install-mysql-from-source/" itemprop="url">源码安装mysql</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2014-12-30T18:27:35+08:00">
+                2014-12-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/mysql/" itemprop="url" rel="index">
+                    <span itemprop="name">mysql</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>mysql 源码包下载地址<br><a href="https://github.com/mysql/mysql-server" target="_blank" rel="external">https://github.com/mysql/mysql-server</a></p>
+<p>参考文档<br><a href="http://dev.mysql.com/doc/refman/5.5/en/installing-source-distribution.html" target="_blank" rel="external">http://dev.mysql.com/doc/refman/5.5/en/installing-source-distribution.html</a></p>
+<p>详细的步骤见官方文档即可 只记录几个关键步骤</p>
+<p>安装依赖软件<br>yum  install ncurses-devel cmake </p>
+<p>cmake时的主要编译参数<br>cmake -DCMAKE_INSTALL_PREFIX=/usr/local/mysql -DMYSQL_DATADIR=/usr/local/mysql/data -DSYSCONFDIR=/etc -DWITH_INNOBASE_STORAGE_ENGINE=1 -DMYSQL_UNIX_ADDR=/var/lib/mysql/mysql.sock -DMYSQL_TCP_PORT=3306 -DENABLED_LOCAL_INFILE=1 -DWITH_PARTITION_STORAGE_ENGINE=1 -DEXTRA_CHARSETS=all -DDEFAULT_CHARSET=utf8 -DDEFAULT_COLLATION=utf8_general_ci</p>
+<p>默认的时候是没有innodb引擎的 所以加入 WITH_INNOBASE_STORAGE_ENGINE<br>ENABLED_LOCAL_INFILE 选项可以支持在客户端以load data 语句加载数据<br>WITH_PARTITION_STORAGE_ENGINE 加入对分区的支持</p>
+<p>scripts/mysql_install_db –basedir=/usr/local/mysql –datadir=/usr/local/mysql/data –user=mysql</p>
+<p>还有个注意的地方是如果开启了binlog 他默认会生产到MYSQL_DATADIR所在的目录 这个文件生产后属主可能不是mysql 如要重新chown  一下</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://www.pengling.cc/2014/12/09/coreseek-install/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1159,444 +1731,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://www.pengling.cc/2014/09/24/change-the-ssh-port-and-auto-login/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="彭领">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/img/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="彭领的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2014/09/24/change-the-ssh-port-and-auto-login/" itemprop="url">putty通过密钥自动登陆 关闭密码登陆</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2014-09-24T11:45:04+08:00">
-                2014-09-24
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/linux/" itemprop="url" rel="index">
-                    <span itemprop="name">linux</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>自己的服务器总是被别人扫描 看着心里就不爽 于是决定改ssh的登陆关口关掉密码登陆</p>
-<p>#修改ssh登陆端口<br>这个简单修改sshd的配置文件就OK了<br>打开 /etc/ssh/sshd_config<br>修改里面的Port</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Port 2014</div><div class="line"><span class="comment">#ListenAddress 0.0.0.0</span></div><div class="line"><span class="comment">#ListenAddress ::</span></div></pre></td></tr></table></figure>
-<p>注意的是如果开着防火墙别忘了在防火墙上新开个端口</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#加入新的端口</span></div><div class="line">iptables -A INPUT -p tcp -m tcp --dport 2014 -j ACCEPT</div><div class="line"><span class="comment">#找到原来22端口的那条id 比如是1</span></div><div class="line">iptables -nL --line-nunmber</div><div class="line"><span class="comment">#删除掉他</span></div><div class="line">iptables -D INPUT 1</div><div class="line">service iptables save</div></pre></td></tr></table></figure>
-<p>修改完重启下sshd服务</p>
-<h1 id="用密钥登陆服务器"><a href="#用密钥登陆服务器" class="headerlink" title="用密钥登陆服务器"></a>用密钥登陆服务器</h1><p>大体的原理很简单就是一个非对称加密解密的过程<br>生成两个密钥（这里我用的<a href="http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html" target="_blank" rel="external">PuTTYgen</a>）一个公钥 一个私钥<br>公钥放在服务器上 私钥放在你自己的电脑上 就OK了</p>
-<p>我windows电脑上用的PuTTY 下面说用这个软件的免密码登陆流程<br>具体流程：</p>
-<ul>
-<li><p>用PuTTYgen生成一对密钥,注意那个文字提示要鼠标不停的在那动才能生成(- -!)<br><img src="/img/putty_1.jpg" alt="生成密钥"><br>生成完了之后私钥保存到你本地一个地方 他会提示你是否确认没设密码就存 我要无密码登陆那就不设了<br>公钥呢就没必要存了 那个进度条下面的那段文字 复制一下就行了 一会粘到服务器里去</p>
-</li>
-<li><p>到你服务器上去在用户目录下新建一个.ssh目录 在这个目录下新建一个 authorized_keys文件（当然也不一定叫这个可以在上面说到的sshd_config里去修改这个文件名）<br>编辑这个文件把刚才的公钥字符串粘进去 其实这个文件是可以有多个公钥的 一行一个就行了</p>
-</li>
-<li><p>回到你本地putty上配置<br>编辑一条记录,选择你刚才生成的私钥，别忘了保存<br><img src="/img/putty_2.jpg" alt="修改密钥文件地址"><br>好了现在去登陆吧<br>会提示你输入用户名 输入完用户名不用密码就能登陆进去了<br>如果你连用户名也不想输入 那编辑putty的默认用户名就行了<br><img src="/img/putty_3.jpg" alt="修改默认用户名"></p>
-</li>
-</ul>
-<p>#关闭密码登陆<br>还是编辑/etc/ssh/sshd_config<br>找到最下面的<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">PasswordAuthentication no</div><div class="line"><span class="comment">#默认是yes改成no就行了</span></div></pre></td></tr></table></figure></p>
-<p>重启sshd<br><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">service sshd restart</span></div></pre></td></tr></table></figure></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://www.pengling.cc/2014/09/23/use-mailx/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="彭领">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/img/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="彭领的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2014/09/23/use-mailx/" itemprop="url">用mailx 在linux上发送邮件</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2014-09-23T16:09:00+08:00">
-                2014-09-23
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/linux/" itemprop="url" rel="index">
-                    <span itemprop="name">linux</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>最近突然想把服务器上的日志 通过邮件发送出去 于是收集整理了一下关于在linux上发送邮件的知识</p>
-<p>#理论基础</p>
-<h2 id="MUA-MTA-MDA"><a href="#MUA-MTA-MDA" class="headerlink" title="MUA MTA MDA"></a>MUA MTA MDA</h2><p><a href="http://emo17emo17.blogspot.com/2009/03/blog-post_30.html" target="_blank" rel="external">http://emo17emo17.blogspot.com/2009/03/blog-post_30.html</a><br><a href="http://blog.sina.com.cn/s/blog_726618d901011n8s.html" target="_blank" rel="external">http://blog.sina.com.cn/s/blog_726618d901011n8s.html</a></p>
-<p>网上关于邮件发送流程分析的文章很多 找了两篇讲解的比较好的<br>最主要的是理解MUA MTA MDA 三个概念 前两个比较好理解 一个是客户端一个是服务器 但是这个MDA看了好几篇文章才算清楚了点</p>
-<p>其实邮件服务器的结构很类似我们常见的http服务器 </p>
-<p>MTA 就像是nginx 他接收来自客户端的请求 但是MTA他只是接收和发送功能 他是不处理具体的邮件逻辑的 他只是网络部分</p>
-<p>MDA 呢就像是nginx后面cgi程序 他才是真正处理邮件逻辑的程序 例如过滤垃圾邮件啊 自动回复什么的</p>
-<h2 id="SMTP-POP3-IMAP"><a href="#SMTP-POP3-IMAP" class="headerlink" title="SMTP POP3/IMAP"></a>SMTP POP3/IMAP</h2><p>邮件协议<br>简单的说SMTP 是发邮件用的 POP3/IMAP 是读邮件用的</p>
-<p>至于POP3和IMAP的区别 见网易的一个<a href="http://help.163.com/10/0203/13/5UJONJ4I00753VB8.html?servCode=6010237" target="_blank" rel="external">解释</a> </p>
-<p>#发送邮件<br>我们不是要搭建一个邮件服务器 我们只是要在linux上发送邮件<br>也就是说我们要扮演的是个MUA的角色 至于怎么搭建自己的邮件服务器 以后学会了再说现在还是看着挺晕的<br>用到的是系统自带的mailx软件<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">rpm -qa | grep mailx</div><div class="line">libreport-plugin-mailx-2.0.9-19.el6.centos.x86_64</div><div class="line">mailx-12.4-7.el6.x86_64</div></pre></td></tr></table></figure></p>
-<p>他的配置文件在<br><figure class="highlight awk"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="regexp">/etc/m</span>ail.rc</div></pre></td></tr></table></figure></p>
-<p>编辑这个文件<br>加上咱的smtp服务器配置信息<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">set</span> from=pengling@163.com</div><div class="line"><span class="built_in">set</span> smtp=smtp.163.com</div><div class="line"><span class="built_in">set</span> smtp-auth-user=pengling</div><div class="line"><span class="built_in">set</span> smtp-auth-password=111111</div><div class="line"><span class="built_in">set</span> smtp-auth=login</div></pre></td></tr></table></figure></p>
-<p>好了配置完了<br>发个邮件试试<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">echo</span> hello word | mailx -v -s <span class="string">'测试邮件'</span> 461921766@qq.com</div></pre></td></tr></table></figure></p>
-<p>OK </p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://www.pengling.cc/2014/09/22/my-first-blog/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="彭领">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/img/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="彭领的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2014/09/22/my-first-blog/" itemprop="url">my first blog</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2014-09-22T23:45:11+08:00">
-                2014-09-22
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/其他/" itemprop="url" rel="index">
-                    <span itemprop="name">其他</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>##第一篇博客就从今天开始吧</p>
-<p>记录我的学习、生活、工作的思考总结</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1642,7 +1781,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-count">23</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1664,7 +1803,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">21</span>
+                <span class="site-state-item-count">22</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

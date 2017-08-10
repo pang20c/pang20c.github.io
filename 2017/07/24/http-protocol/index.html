@@ -103,10 +103,12 @@
 <meta property="og:site_name" content="彭领的博客">
 <meta property="og:description" content="格式HTTP报文 由 报文头部 和 报文主体 组成，两者用CRLF（\r\n）分割报文头部 包括 请求行（请求） 或 状态行（响应）、首部字段、和其他（例如cookie）首部字段也是用CRLF分割 常用错误码 301 永久跳转 302 临时跳转 304 文件未修改 400 请求语法错误 402 请求未授权 403 禁止访问 503 服务不可用  长连接（keep-alive）TCP链接建立需要三次">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-07-26T08:02:07.000Z">
+<meta property="og:image" content="http://www.pengling.cc/2017/07/24/http-protocol/media/15015587412678.jpg">
+<meta property="og:updated_time" content="2017-08-01T03:39:09.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="http 知识点总结">
 <meta name="twitter:description" content="格式HTTP报文 由 报文头部 和 报文主体 组成，两者用CRLF（\r\n）分割报文头部 包括 请求行（请求） 或 状态行（响应）、首部字段、和其他（例如cookie）首部字段也是用CRLF分割 常用错误码 301 永久跳转 302 临时跳转 304 文件未修改 400 请求语法错误 402 请求未授权 403 禁止访问 503 服务不可用  长连接（keep-alive）TCP链接建立需要三次">
+<meta name="twitter:image" content="http://www.pengling.cc/2017/07/24/http-protocol/media/15015587412678.jpg">
 
 
 
@@ -433,6 +435,30 @@
 <li>过滤html java用spring的 HtmlUtils.htmlEscape php 用 htmlspecialchars</li>
 <li>必须输入html的地方 设置标签白名单，解析html重新整理。</li>
 </ul>
+<h2 id="HTTPS流程"><a href="#HTTPS流程" class="headerlink" title="HTTPS流程"></a>HTTPS流程</h2><p><img src="media/15015587412678.jpg" alt=""></p>
+<ol>
+<li><p>客户端发送<code>ClientHello</code>请求到服务器，主要包括以下信息</p>
+<blockquote>
+<p>客户端协议的版本 如TLS 1.0<br>支持的加密算法 如RSA<br>支持的压缩算法<br>一个随机数（1）</p>
+</blockquote>
+</li>
+<li><p>服务器回应<code>SeverHello</code>,包括以下信息</p>
+<blockquote>
+<p>确认加密协议版本 如TLS 1.0<br>确认加密算法<br>服务器整数<br>一个随机数（2）</p>
+</blockquote>
+</li>
+<li><p>客户端验证证书的有效性，提取证书中的公钥，回复下面三个信息</p>
+<blockquote>
+<p>用证书中的公钥加密一个 随机数（3）这个随机数也成为 pre-master key<br>编码改变通知，表示随后用加密方式通信<br>客户端握手结束通知</p>
+</blockquote>
+</li>
+<li><p>最后客户端回复确认消息包括</p>
+<blockquote>
+<p>编码改变通知<br>服务器握手结束通知  </p>
+</blockquote>
+</li>
+</ol>
+<p>TLS 详细说明 <a href="https://imququ.com/post/optimize-tls-handshake.html" target="_blank" rel="external">https://imququ.com/post/optimize-tls-handshake.html</a></p>
 
       
     </div>
@@ -562,7 +588,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-count">23</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -584,7 +610,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">21</span>
+                <span class="site-state-item-count">22</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -626,7 +652,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#格式"><span class="nav-number">1.</span> <span class="nav-text">格式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#常用错误码"><span class="nav-number">2.</span> <span class="nav-text">常用错误码</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#长连接（keep-alive）"><span class="nav-number">3.</span> <span class="nav-text">长连接（keep-alive）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#分块传输-Transfer-Encoding-chunked"><span class="nav-number">4.</span> <span class="nav-text">分块传输(Transfer-Encoding: chunked)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Cache-Control-缓存处理策略"><span class="nav-number">5.</span> <span class="nav-text">Cache-Control 缓存处理策略</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#常用头部"><span class="nav-number">6.</span> <span class="nav-text">常用头部</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#请求头"><span class="nav-number">6.1.</span> <span class="nav-text">请求头</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#响应头"><span class="nav-number">6.2.</span> <span class="nav-text">响应头</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安全"><span class="nav-number">7.</span> <span class="nav-text">安全</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#csrf-跨站请求伪造-防范"><span class="nav-number">7.1.</span> <span class="nav-text">csrf 跨站请求伪造  防范</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#xss-跨站脚本攻击-防范"><span class="nav-number">7.2.</span> <span class="nav-text">xss 跨站脚本攻击 防范</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#格式"><span class="nav-number">1.</span> <span class="nav-text">格式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#常用错误码"><span class="nav-number">2.</span> <span class="nav-text">常用错误码</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#长连接（keep-alive）"><span class="nav-number">3.</span> <span class="nav-text">长连接（keep-alive）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#分块传输-Transfer-Encoding-chunked"><span class="nav-number">4.</span> <span class="nav-text">分块传输(Transfer-Encoding: chunked)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Cache-Control-缓存处理策略"><span class="nav-number">5.</span> <span class="nav-text">Cache-Control 缓存处理策略</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#常用头部"><span class="nav-number">6.</span> <span class="nav-text">常用头部</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#请求头"><span class="nav-number">6.1.</span> <span class="nav-text">请求头</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#响应头"><span class="nav-number">6.2.</span> <span class="nav-text">响应头</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安全"><span class="nav-number">7.</span> <span class="nav-text">安全</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#csrf-跨站请求伪造-防范"><span class="nav-number">7.1.</span> <span class="nav-text">csrf 跨站请求伪造  防范</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#xss-跨站脚本攻击-防范"><span class="nav-number">7.2.</span> <span class="nav-text">xss 跨站脚本攻击 防范</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HTTPS流程"><span class="nav-number">7.3.</span> <span class="nav-text">HTTPS流程</span></a></li></ol></li></ol></div>
             
 
           </div>
